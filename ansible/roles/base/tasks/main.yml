@@ -16,12 +16,6 @@
     repo: deb https://packages.grafana.com/oss/deb stable main
     state: present
   become: true
-- name: Install packages
-  package:
-    name:
-      - prometheus
-      - grafana
-  become: true
 - name: Create a directory for the temperature exporter
   file:
     state: directory
@@ -48,11 +42,40 @@
     enabled: yes
     name: temperature
   become: true
+- name: Install Prometheus
+  package:
+    name:
+      - prometheus
+  become: true
+- name: Remove prometheus-node-exporter
+  ansible.builtin.package:
+    name: prometheus-node-exporter
+    state: absent
+  become: true
+- name: Configure Prometheus to use temperature data only
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify: Restart Prometheus
 - name: Make sure prometheus is running
   ansible.builtin.systemd:
     state: started
     enabled: yes
     name: prometheus
+  become: true
+- name: Add specified repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+    state: present
+  become: true
+- name: Install Grafana
+  package:
+    name:
+      - grafana
   become: true
 - name: Make sure grafana is running
   ansible.builtin.systemd:
