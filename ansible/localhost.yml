@@ -1,0 +1,12 @@
+---
+- name: Prepare the SD card of the Raspberry Pi temperature sensor server
+  hosts: localhost
+  connection: local
+  gather_facts: True
+  roles:
+    - os_get
+    - boot_mount
+    - boot_prepare
+    - boot_umount
+    - sd_write
+

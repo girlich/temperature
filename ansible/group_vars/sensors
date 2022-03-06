@@ -1,0 +1,6 @@
+host_name: temperature
+user_password_clean: temperature
+user_password_crypt: "{{ user_password_clean | password_hash('sha512', 'mysecretsalt') }}"
+ssh_keyfile_dir: "../ssh-keys"
+ssh_keyfile_private: "{{ ssh_keyfile_dir }}/ssh_key_{{ host_name }}"
+ssh_keyfile_public: "{{ ssh_keyfile_private }}.pub"

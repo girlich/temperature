@@ -1,0 +1,7 @@
+---
+- name: Umount boot partition
+  ansible.posix.mount:
+    path: "{{ mount_dir }}"
+    state: unmounted
+  become: true
+

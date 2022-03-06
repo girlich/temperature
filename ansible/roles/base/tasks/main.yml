@@ -1,0 +1,20 @@
+---
+- name: Give the user pi a no-default password
+  user:
+    name: "{{ ansible_user }}"
+    password: "{{ user_password_crypt }}"
+  become: true
+- name: Activate the overlay for 1-wire
+  lineinfile:
+    path: /boot/config.txt
+    line: dtoverlay=w1-gpio,gpiopin=4
+    regexp: '^dtoverlay=w1.*$'
+  become: true
+  notify: Reboot temperature
+- name: Install packages
+  package:
+    name:
+      - prometheus
+      - grafana
+  become: true
+

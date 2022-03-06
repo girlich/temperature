@@ -1,0 +1,19 @@
+---
+- name: Create the archive directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ archive_dir }}"
+- name: Download the zipped OS image file
+  ansible.builtin.get_url:
+    url: "{{ archive_url }}"
+    dest: "{{ archive_file }}"
+    mode: '0440'
+    checksum: "{{ archive_checksum }}"
+- name: Create the temporary directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ temp_dir }}"
+- name: Unarchive image
+  ansible.builtin.unarchive:
+    src: "{{ archive_file }}"
+    dest: "{{ temp_dir }}"

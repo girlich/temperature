@@ -1,0 +1,29 @@
+---
+- name: Create directory for the SSH key files
+  ansible.builtin.file:
+    state: directory
+    path: "{{ ssh_keyfile_dir }}"
+- name: Generate a SSH keypair
+  community.crypto.openssh_keypair:
+    path: "{{ ssh_keyfile_private }}"
+    mode: 0600
+- name: Read the public SSH key
+  slurp:
+    src: "{{ ssh_keyfile_public }}"
+  register: keyfile
+- name: Get the public SSH key itself
+  set_fact:
+    ssh_key_public: "{{ keyfile.content | b64decode }}"
+- name: Copy firstrun.sh into the image
+  template:
+    src: firstrun.sh.j2
+    dest: "{{ mount_dir }}/firstrun.sh"
+  become: true
+- set_fact:
+    cmdline_txt_path: "{{ mount_dir }}/cmdline.txt"
+- include_tasks: cmdline.yml
+  vars:
+    key: systemd.run
+    value: /boot/firstrun.sh
+    update: true
+

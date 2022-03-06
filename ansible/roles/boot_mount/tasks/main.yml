@@ -1,0 +1,23 @@
+---
+- name: Get partition data of the image
+  command:
+    cmd: "sfdisk -J {{ image_file }}"
+  register: partitions
+- name: Select partition
+  set_fact:
+    partition: "{{ (partitions.stdout | from_json).partitiontable.partitions[0] }}"
+- name: Print partition
+  debug:
+    msg: "Start: {{ partition }}"
+- name: Print partition start and size in bytes
+  debug:
+    msg: "Start: {{ partition.start * 512 }}, Size: {{ partition.size * 512 }}"
+- name: Mount boot partition
+  ansible.posix.mount:
+    src: "{{ image_file }}"
+    path: "{{ mount_dir }}"
+    opts: "loop,offset={{ partition.start * 512 }},sizelimit={{ partition.size * 512 }},umask=000"
+    fstype: vfat
+    state: mounted
+  become: true
+

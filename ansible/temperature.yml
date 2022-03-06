@@ -1,0 +1,7 @@
+---
+- name: Setup the Raspberry Pi temperature sensor server
+  hosts: temperature
+  gather_facts: True
+  roles:
+    - base
+
