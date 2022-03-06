@@ -47,14 +47,17 @@
     state: started
     enabled: yes
     name: temperature
+  become: true
 - name: Make sure prometheus is running
   ansible.builtin.systemd:
     state: started
     enabled: yes
     name: prometheus
+  become: true
 - name: Make sure grafana is running
   ansible.builtin.systemd:
     state: started
     enabled: yes
     name: grafana-server
+  become: true
 
