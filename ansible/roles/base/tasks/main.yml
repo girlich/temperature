@@ -22,6 +22,31 @@
       - prometheus
       - grafana
   become: true
+- name: Create a directory for the temperature exporter
+  file:
+    state: directory
+    path: /home/pi/temperature
+- name: Create the Python script
+  copy:
+    src: ../sensor/temperature.py
+    dest: /home/pi/temperature/temperature.py
+    mode: '0755'
+- name: Create the systemd service file
+  copy:
+    src: ../sensor/temperature.service
+    dest: /home/pi/temperature/temperature.service
+    mode: '0644'
+- name: Create a symlink to activate the service file
+  file:
+    state: link
+    src: /home/pi/temperature/temperature.service
+    dest: /etc/systemd/system/temperature.service
+  become: true
+- name: Make sure the temperature service is running
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: temperature
 - name: Make sure prometheus is running
   ansible.builtin.systemd:
     state: started
