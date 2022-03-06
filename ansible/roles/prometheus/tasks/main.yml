@@ -1,0 +1,27 @@
+---
+- name: Install Prometheus
+  ansible.builtin.package:
+    name:
+      - prometheus
+  become: true
+- name: Remove prometheus-node-exporter
+  ansible.builtin.package:
+    name: prometheus-node-exporter
+    state: absent
+  become: true
+- name: Configure Prometheus to use temperature data only
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify: Restart Prometheus
+- name: Make sure prometheus is running
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: prometheus
+  become: true
+

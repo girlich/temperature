@@ -1,0 +1,23 @@
+---
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://packages.grafana.com/gpg.key
+    state: present
+  become: true
+- name: Add specified repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+    state: present
+  become: true
+- name: Install Grafana
+  package:
+    name:
+      - grafana
+  become: true
+- name: Make sure grafana is running
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: grafana-server
+  become: true
+

@@ -1,10 +1,5 @@
 ---
-- name: Reboot temperature
+- name: Reboot the server
   reboot:
-  become: yes
-- name: Restart Prometheus
-  ansible.builtin.service:
-    name: prometheus
-    state: restarted
   become: yes
 
