@@ -25,28 +25,29 @@ data=[
         "value": 22.0, "valid": False },
     { "labels": { "id": "28-3c01b5565e0e", "group": "1", "number": "3" },
         "value": 23.0, "valid": False },
-    { "labels": { "id": "28-3c01b556766c", "group": "2", "number": "1" },
+    { "labels": { "id": "28-3c01b556766c", "group": "1", "number": "4" },
         "value": 31.0, "valid": False },
-    { "labels": { "id": "28-3c01b5568761", "group": "2", "number": "2" },
+    { "labels": { "id": "28-3c01b5568761", "group": "1", "number": "5" },
         "value": 32.0, "valid": False },
-    { "labels": { "id": "28-3c01b55689a6", "group": "2", "number": "3" },
+    { "labels": { "id": "28-3c01b55689a6", "group": "1", "number": "6" },
         "value": 33.0, "valid": False },
-    { "labels": { "id": "28-3c01b5568c5b", "group": "3", "number": "1" },
+    { "labels": { "id": "28-3c01b5568c5b", "group": "2", "number": "1" },
         "value": 41.0, "valid": False },
-    { "labels": { "id": "28-3c01b55699fe", "group": "3", "number": "2" },
+    { "labels": { "id": "28-3c01b55699fe", "group": "2", "number": "2" },
         "value": 42.0, "valid": False },
-    { "labels": { "id": "28-3c01b5569f29", "group": "3", "number": "3" },
+    { "labels": { "id": "28-3c01b5569f29", "group": "2", "number": "3" },
         "value": 43.0, "valid": False },
-    { "labels": { "id": "28-3c01b556b134", "group": "4", "number": "1" },
+    { "labels": { "id": "28-3c01b556b134", "group": "2", "number": "4" },
         "value": 51.0, "valid": False },
-    { "labels": { "id": "28-3c01b556b495", "group": "4", "number": "2" },
+    { "labels": { "id": "28-3c01b556b495", "group": "2", "number": "5" },
         "value": 52.0, "valid": False },
-    { "labels": { "id": "28-3c01b556e00b", "group": "4", "number": "3" },
+    { "labels": { "id": "28-3c01b556e00b", "group": "2", "number": "6" },
         "value": 53.0, "valid": False },
     { "labels": { "id": "28-012044fe3f93", "group": "5", "number": "1" },
         "value": 53.0, "valid": False },
 ]
 
+root_prefix='a'
 
 def read_sensors():
     """
@@ -55,7 +56,7 @@ def read_sensors():
     import re
     for d in data:
         d['valid'] = False
-        p="/sys/bus/w1/devices/{}/w1_slave".format(d['labels']['id'])
+        p="{}/sys/bus/w1/devices/{}/w1_slave".format(root_prefix, d['labels']['id'])
         try:
             with open(p,'r') as fd:
                 for line in fd:
@@ -64,6 +65,7 @@ def read_sensors():
                         d['value'] = float(mo.group(1)) / 1000
                         d['valid'] = True
         except IOError:
+            # print("error opening {}".format(p))
             pass
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -96,7 +98,10 @@ def server(args):
     :param args: The command line arguments of the main script.
     :return: returns nothing
     """
+    global root_prefix
+    root_prefix = args.root
     httpd = HTTPServer(('', args.port_number), Handler)
+    print("root prefix='{}', listen on port {}".format(root_prefix, args.port_number))
     httpd.serve_forever()
 
 def main():
@@ -105,6 +110,8 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("-l", "--listen", dest="port_number", default=9090,
                     help="listen on given port", type=int)
+    parser.add_argument("-r", "--root", dest="root", default="",
+                    help="prefix sensor files with directory root", type=str)
     args = parser.parse_args()
     server(args)
 
