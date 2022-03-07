@@ -19,9 +19,9 @@ activate: $(V)
 deps-ansible:
 	ansible-galaxy collection install -r ansible/requirements.yml
 
-local:
-	cd ansible ; ansible-playbook --ask-become-pass localhost.yml --extra-vars "@../../localhost.yml"
+sd:
+	cd ansible ; ansible-playbook --ask-become-pass sd.yml --extra-vars "@../../sd.yml"
 
 remote:
-	cd ansible ; ansible-playbook temperature.yml --extra-vars "@../../temperature.yml"
+	cd ansible ; ansible-playbook remote.yml --extra-vars "@../../remote.yml"
 

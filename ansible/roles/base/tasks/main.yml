@@ -1,9 +1,13 @@
 ---
 - name: Activate the overlay for 1-wire
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /boot/config.txt
     line: dtoverlay=w1-gpio,gpiopin=4
     regexp: '^dtoverlay=w1.*$'
   become: true
   notify: Reboot temperature
+- name: Copy the private ssh key into the server machine
+  ansible.builtin.copy:
+    src: "{{ ssh_keyfile_private }}"
+    dest: /home/pi/.ssh/id_rsa
 

@@ -8,11 +8,18 @@
     src: ../sensor/temperature.py
     dest: /home/pi/temperature/temperature.py
     mode: '0755'
+  notify: Restart temperature service
+- name: Copy the test directory
+  copy:
+    src: ../sensor/test
+    dest: /home/pi/temperature
+  notify: Restart temperature service
 - name: Create the systemd service file
   copy:
     src: ../sensor/temperature.service
     dest: /home/pi/temperature/temperature.service
     mode: '0644'
+  notify: Restart temperature service
 - name: Create a symlink to activate the service file
   file:
     state: link
