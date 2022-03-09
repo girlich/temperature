@@ -14,8 +14,8 @@ __all__ = ['help']
 __author__ = "Dr. Uwe Girlich <uwe.girlich@gmail.com>"
 
 metric="temperature"
-HEADER="""# HELP {0} The current temperature\r
-# TYPE {0} gauge\r
+HEADER="""# HELP {0} The current temperature
+# TYPE {0} gauge
 """
 
 data=[
@@ -82,11 +82,12 @@ class Handler(BaseHTTPRequestHandler):
         """
         read_sensors()
         self.send_response(200)
+        self.send_header("Content-type", "text/plain")
         self.end_headers()
         text = HEADER.format(metric)
         for d in data:
             if d['valid']:
-                line = metric + "{" + ",".join(['{}="{}"'.format(k,v) for k,v in d["labels"].items()]) + "} " + str(d['value']) + "\r\n"
+                line = metric + "{" + ",".join(['{}="{}"'.format(k,v) for k,v in d["labels"].items()]) + "} " + str(d['value']) + "\n"
                 text += line
         self.wfile.write(bytes(text,"utf-8"))
 
