@@ -22,7 +22,7 @@
   become: true
 - name: Put the dashboard in the just created directory
   ansible.builtin.copy:
-    src: Temperatur-1646914541056.json
+    src: Temperatur.json
     dest: /var/lib/grafana/dashboards/Temperature.json
   notify: Restart Grafana
   become: true
