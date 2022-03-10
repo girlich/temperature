@@ -4,7 +4,7 @@
   gather_facts: True
   roles:
     - base
-    - sensor
+#    - sensor
     - prometheus
     - grafana
 

@@ -14,6 +14,32 @@
     name:
       - grafana
   become: true
+- name: Create a dashboard directory
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+  notify: Restart Grafana
+  become: true
+- name: Put the dashboard in the just created directory
+  ansible.builtin.copy:
+    src: Temperatur-1646914541056.json
+    dest: /var/lib/grafana/dashboards/Temperature.json
+  notify: Restart Grafana
+  become: true
+- name: Provision prometheus as data source
+  ansible.builtin.template:
+    src: prometheus.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+  notify: Restart Grafana
+  become: true
+- name: Provision dashboards
+  template:
+    src: dashboard.yaml.j2
+    dest: /etc/grafana/provisioning/dashboards/default.yaml
+  notify: Restart Grafana
+  become: true
+- name: Make sure grafana is running
+  ansible.builtin.systemd:
 - name: Make sure grafana is running
   ansible.builtin.systemd:
     state: started
