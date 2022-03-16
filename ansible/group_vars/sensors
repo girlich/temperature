@@ -6,4 +6,7 @@ ssh_keyfile_private: "{{ ssh_keyfile_dir }}/ssh_key_{{ host_name }}"
 ssh_keyfile_public: "{{ ssh_keyfile_private }}.pub"
 
 prometheus_url: http://localhost:9090
+prometheus_retention_time: 1000d
+
+grafana_admin_password: temperature
 

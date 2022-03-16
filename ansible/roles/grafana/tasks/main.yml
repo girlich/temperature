@@ -14,6 +14,22 @@
     name:
       - grafana
   become: true
+- name: Setup Grafana admin password
+  community.general.ini_file:
+    path: /etc/grafana/grafana.ini
+    section: security
+    option: admin_password
+    value: "{{ grafana_admin_password }}"
+  notify: Restart Grafana
+  become: true
+- name: Allow no password for viewers
+  community.general.ini_file:
+    path: /etc/grafana/grafana.ini
+    section: auth.anonymous
+    option: enabled
+    value: "true"
+  notify: Restart Grafana
+  become: true
 - name: Create a dashboard directory
   ansible.builtin.file:
     path: /var/lib/grafana/dashboards
@@ -38,8 +54,6 @@
     dest: /etc/grafana/provisioning/dashboards/default.yaml
   notify: Restart Grafana
   become: true
-- name: Make sure grafana is running
-  ansible.builtin.systemd:
 - name: Make sure grafana is running
   ansible.builtin.systemd:
     state: started
