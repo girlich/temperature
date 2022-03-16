@@ -9,6 +9,15 @@
     name: prometheus-node-exporter
     state: absent
   become: true
+- name: Configure Prometheus command line options
+  ansible.builtin.template:
+    src: prometheus.j2
+    dest: /etc/default/prometheus
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify: Restart Prometheus
 - name: Configure Prometheus to use temperature data only
   ansible.builtin.template:
     src: prometheus.yml.j2
