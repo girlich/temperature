@@ -14,14 +14,6 @@
     name:
       - grafana
   become: true
-- name: Setup Grafana admin password
-  community.general.ini_file:
-    path: /etc/grafana/grafana.ini
-    section: security
-    option: admin_password
-    value: "{{ grafana_admin_password }}"
-  notify: Restart Grafana
-  become: true
 - name: Allow no password for viewers
   community.general.ini_file:
     path: /etc/grafana/grafana.ini
@@ -59,5 +51,9 @@
     state: started
     enabled: yes
     name: grafana-server
+  become: true
+- name: Setup Grafana admin user password
+  ansible.builtin.command:
+    cmd: "/usr/sbin/grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
   become: true
 
