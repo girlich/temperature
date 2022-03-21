@@ -1,6 +1,13 @@
 V=./venv
 
 all:
+	@echo useful targets:
+	@echo "venv      prepare virtual Python environment"
+	@echo "activate  jump into the virtual Python environment interactively"
+	@echo "sd        create an SD card locally"
+	@echo "remote    configure the remote server"
+	@echo "copy      copy stuff to the remopte server to continue working from there"
+	@echo "update    get the most current version"
 
 venv: $(V)/touchfile
 
@@ -27,4 +34,7 @@ remote:
 
 copy:
 	cd ansible ; ansible-playbook copy.yml --extra-vars "@../../private.yml"
+
+update:
+	git pull
 
