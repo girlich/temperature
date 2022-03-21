@@ -3,4 +3,14 @@
   ansible.builtin.copy:
     src: ../../private.yml
     dest: "{{ project_base }}"
+- name: Copy public SSH key file
+  ansible.builtin.copy:
+    src: "{{ ssh_keyfile_public }}"
+    dest: "{{ git_dir }}/ssh-keys"
+    mode: "0600"
+- name: Copy private SSH key file
+  ansible.builtin.copy:
+    src: "{{ ssh_keyfile_private }}"
+    dest: "{{ git_dir }}/ssh-keys"
+    mode: "0600"
 
