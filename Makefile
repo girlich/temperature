@@ -19,6 +19,8 @@ $(V)/touchfile: requirements.txt
 
 # The following line retains PS1 even inside "make activate".
 .SHELLFLAGS=-ilc
+# "source" needs a bash as shell
+SHELL=/bin/bash
 
 activate: $(V)
 	source $(V)/bin/activate;bash -il
