@@ -1,0 +1,10 @@
+---
+- name: Install git
+  ansible.builtin.package:
+    name:
+      - git
+- name: Clone git repo
+  ansible.builtin.git:
+    repo: https://github.com/girlich/temperature.git
+    dest: '{{ git_dir }}'
+

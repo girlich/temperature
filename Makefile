@@ -25,3 +25,6 @@ sd:
 remote:
 	cd ansible ; ansible-playbook remote.yml --extra-vars "@../../private.yml"
 
+copy:
+	cd ansible ; ansible-playbook copy.yml --extra-vars "@../../private.yml"
+
