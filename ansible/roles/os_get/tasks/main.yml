@@ -3,6 +3,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ archive_dir }}"
+    mode: "0755"
 - name: Download the zipped OS image file
   ansible.builtin.get_url:
     url: "{{ archive_url }}"
@@ -13,6 +14,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ temp_dir }}"
+    mode: "0755"
 - name: Unarchive image
   ansible.builtin.unarchive:
     src: "{{ archive_file }}"

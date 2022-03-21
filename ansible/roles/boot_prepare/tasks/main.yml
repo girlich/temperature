@@ -14,8 +14,10 @@
   template:
     src: firstrun.sh.j2
     dest: "{{ mount_dir }}/firstrun.sh"
+    mode: "0755"
   become: true
-- set_fact:
+- name: Set the path for the file cmdline.txt
+  ansible.builtin.set_fact:
     cmdline_txt_path: "{{ mount_dir }}/cmdline.txt"
 - include_tasks: cmdline.yml
   vars:

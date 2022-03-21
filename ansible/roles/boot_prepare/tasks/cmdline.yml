@@ -22,4 +22,6 @@
         | regex_replace(regex_add_missing, key_value_pair + " \1")
       }}'
     dest: "{{ cmdline_txt_path }}"
+    # mode set is useless because /boot is a "vfat" file system
+    mode: "0755"
 

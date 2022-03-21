@@ -20,30 +20,43 @@
     section: auth.anonymous
     option: enabled
     value: "true"
+    mode: "0640"
   notify: Restart Grafana
   become: true
 - name: Create a dashboard directory
   ansible.builtin.file:
     path: /var/lib/grafana/dashboards
     state: directory
+    mode: "0755"
+    owner: grafana
+    group: grafana
   notify: Restart Grafana
   become: true
 - name: Put the dashboard in the just created directory
   ansible.builtin.copy:
     src: Temperatur.json
     dest: /var/lib/grafana/dashboards/Temperature.json
+    mode: "0644"
+    owner: grafana
+    group: grafana
   notify: Restart Grafana
   become: true
 - name: Provision prometheus as data source
   ansible.builtin.template:
     src: prometheus.yaml.j2
     dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+    mode: "0640"
+    owner: root
+    group: grafana
   notify: Restart Grafana
   become: true
 - name: Provision dashboards
   template:
     src: dashboard.yaml.j2
     dest: /etc/grafana/provisioning/dashboards/default.yaml
+    mode: "0640"
+    owner: root
+    group: grafana
   notify: Restart Grafana
   become: true
 - name: Make sure grafana is running

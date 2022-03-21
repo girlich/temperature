@@ -7,6 +7,7 @@
   ansible.builtin.git:
     repo: https://github.com/girlich/temperature.git
     dest: '{{ git_dir }}'
+    version: main
 - name: Configure git to remove the pull warning
   community.general.git_config:
     repo: '{{ git_dir }}'

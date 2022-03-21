@@ -10,3 +10,4 @@
   ansible.builtin.copy:
     src: "{{ ssh_keyfile_private }}"
     dest: /home/pi/.ssh/id_rsa
+    mode: "0600"
