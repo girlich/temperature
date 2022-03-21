@@ -3,6 +3,7 @@
   file:
     state: directory
     path: /home/pi/temperature
+    mode: "0755"
 - name: Create the Python script
   copy:
     src: ../sensor/temperature.py
@@ -13,6 +14,7 @@
   copy:
     src: ../sensor/test
     dest: /home/pi/temperature
+    mode: '0755'
   notify: Restart temperature service
 - name: Create the systemd service file
   copy:
