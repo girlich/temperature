@@ -5,23 +5,23 @@ all:
 venv: $(V)/touchfile
 
 $(V)/touchfile: requirements.txt
-	test -d $(V) || python3 -m venv $(V) -p python3.8
-	$(MAKE) update_pip
+	test -d $(V) || python3 -m venv $(V)
+	$(V)/bin/python3 -m pip install --upgrade pip
 	. $(V)/bin/activate ; pip install -Ur requirements.txt
 	touch $@
 
-update_pip:
-	$(V)/bin/python3 -m pip install --upgrade pip
+# The following line retains PS1 even inside "make activate".
+.SHELLFLAGS=-ilc
 
 activate: $(V)
-	echo "source $(V)/bin/activate"
+	source $(V)/bin/activate;bash -il
 
 deps-ansible:
 	ansible-galaxy collection install -r ansible/requirements.yml
 
 sd:
-	cd ansible ; ansible-playbook --ask-become-pass sd.yml --extra-vars "@../../sd.yml"
+	cd ansible ; ansible-playbook --ask-become-pass sd.yml --extra-vars "@../../private.yml"
 
 remote:
-	cd ansible ; ansible-playbook remote.yml --extra-vars "@../../remote.yml"
+	cd ansible ; ansible-playbook remote.yml --extra-vars "@../../private.yml"
 
