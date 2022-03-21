@@ -4,5 +4,6 @@
   gather_facts: True
   roles:
     - git
+    - private
     - venv
 

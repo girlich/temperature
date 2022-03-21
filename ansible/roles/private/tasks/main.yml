@@ -1,0 +1,6 @@
+---
+- name: Copy private.yml file
+  ansible.builtin.copy:
+    src: ../../private.yml
+    dest: "{{ project_base }}"
+
