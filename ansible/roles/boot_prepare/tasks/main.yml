@@ -1,8 +1,4 @@
 ---
-- name: Create directory for the SSH key files
-  ansible.builtin.file:
-    state: directory
-    path: "{{ ssh_keyfile_dir }}"
 - name: Generate a SSH keypair
   community.crypto.openssh_keypair:
     path: "{{ ssh_keyfile_private }}"
