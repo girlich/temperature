@@ -23,7 +23,7 @@ $(V)/touchfile: requirements.txt
 SHELL=/bin/bash
 
 activate: $(V)
-	source $(V)/bin/activate;bash -il
+	source $(V)/bin/activate;bash
 
 deps-ansible:
 	ansible-galaxy collection install -r ansible/requirements.yml
