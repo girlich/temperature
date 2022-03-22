@@ -25,8 +25,9 @@ SHELL=/bin/bash
 activate: $(V)
 	source $(V)/bin/activate;bash
 
-deps-ansible:
-	ansible-galaxy collection install -r ansible/requirements.yml
+deps-ansible: ansible/requirements.yml
+	$(V)/bin/ansible-galaxy collection install -r ansible/requirements.yml
+	touch $(V)/galaxy
 
 # Locally on a PC: prepare and write the SD card
 sd:

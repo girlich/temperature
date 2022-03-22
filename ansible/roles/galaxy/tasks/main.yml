@@ -1,0 +1,7 @@
+---
+- name: Install the ansible galaxy dependencies
+  ansible.builtin.command:
+    chdir: "{{ git_dir }}"
+    cmd: make deps-ansible
+    creates: "{{ git_dir }}/venv/galaxy"
+
