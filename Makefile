@@ -22,8 +22,6 @@ $(V)/touchfile: requirements.txt
 	. $(V)/bin/activate ; pip install -Ur requirements.txt
 	touch $@
 
-# The following line retains PS1 even inside "make activate".
-.SHELLFLAGS=-ilc
 # "source" needs a bash as shell
 SHELL=/bin/bash
 
