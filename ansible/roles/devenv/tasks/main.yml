@@ -1,0 +1,7 @@
+---
+- name: Install Vim
+  ansible.builtin.package:
+    name:
+      - vim
+  become: true
+
