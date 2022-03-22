@@ -5,5 +5,4 @@
   roles:
     - git
     - private
-    - venv
 

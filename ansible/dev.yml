@@ -1,0 +1,7 @@
+---
+- name: Prepare development environment on the Raspberry Pi
+  hosts: temperature
+  gather_facts: True
+  roles:
+    - venv
+
