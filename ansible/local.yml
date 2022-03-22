@@ -1,6 +1,7 @@
 ---
 - name: Setup the Raspberry Pi temperature sensor server
-  hosts: temperature
+  hosts: localhost
+  connection: local
   gather_facts: True
   roles:
     - base
