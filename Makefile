@@ -22,11 +22,8 @@ $(V)/touchfile: requirements.txt
 	. $(V)/bin/activate ; pip install -Ur requirements.txt
 	touch $@
 
-# "source" needs a bash as shell
-SHELL=/bin/bash
-
 activate: $(V)
-	source $(V)/bin/activate;bash
+	. $(V)/bin/activate && exec bash
 
 deps-ansible: ansible/requirements.yml
 	$(V)/bin/ansible-galaxy collection install -r ansible/requirements.yml
