@@ -6,8 +6,3 @@
     regexp: '^dtoverlay=w1.*$'
   become: true
   notify: Reboot temperature
-- name: Copy the private ssh key into the server machine
-  ansible.builtin.copy:
-    src: "{{ ssh_keyfile_private }}"
-    dest: /home/pi/.ssh/id_rsa
-    mode: "0600"
