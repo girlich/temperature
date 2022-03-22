@@ -1,6 +1,11 @@
-V=./venv
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+mkfile_dir := $(dir $(mkfile_path))
+
+V=$(mkfile_dir)venv
 
 all:
+	@echo running in $(mkfile_dir)
+	@echo venv is $(V)
 	@echo useful targets:
 	@echo "venv      prepare virtual Python environment"
 	@echo "activate  jump into the virtual Python environment interactively"
