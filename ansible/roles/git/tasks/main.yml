@@ -14,3 +14,16 @@
     scope: local
     name: pull.rebase
     value: "false"
+- name: Set commit user name
+  community.general.git_config:
+    repo: '{{ git_dir }}'
+    scope: local
+    name: user.name
+    value: 'Uwe Girlich on {{ host_name }}'
+- name: Set commit user email address
+  community.general.git_config:
+    repo: '{{ git_dir }}'
+    scope: local
+    name: user.email
+    value: uwe.girlich@gmail.com
+
