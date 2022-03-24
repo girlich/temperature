@@ -5,7 +5,7 @@
       - git
 - name: Clone git repo
   ansible.builtin.git:
-    repo: https://github.com/girlich/temperature.git
+    repo: git@github.com:girlich/temperature.git
     dest: '{{ git_dir }}'
     version: main
 - name: Configure git to remove the pull warning
