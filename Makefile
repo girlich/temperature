@@ -7,12 +7,13 @@ all:
 	@echo running in $(mkfile_dir)
 	@echo venv is $(V)
 	@echo useful targets:
-	@echo "venv      prepare virtual Python environment"
-	@echo "activate  jump into the virtual Python environment interactively"
-	@echo "sd        create an SD card locally"
-	@echo "remote    configure the remote server"
-	@echo "copy      copy stuff to the remopte server to continue working from there"
-	@echo "update    get the most current version"
+	@echo "venv        prepare virtual Python environment"
+	@echo "activate    jump into the virtual Python environment interactively"
+	@echo "sd          create an SD card locally"
+	@echo "remote      configure the remote server"
+	@echo "copy        copy stuff to the remopte server to continue working from there"
+	@echo "update-git  get the most current version"
+	@echo "update-os   update the operating system and packages in it"
 
 venv: $(V)/touchfile
 
@@ -45,6 +46,10 @@ dev:
 local:
 	cd ansible ; ansible-playbook local.yml --extra-vars "@../../private.yml"
 
-update:
+update-git:
 	git pull
+
+update-os:
+	sudo apt update
+	sudo apt upgrade -y
 
