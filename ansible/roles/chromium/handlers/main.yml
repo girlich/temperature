@@ -1,0 +1,7 @@
+---
+- name: Restart LXDE
+  ansible.builtin.service:
+    name: display-manager
+    state: restarted
+  become: yes
+

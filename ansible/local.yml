@@ -5,6 +5,7 @@
   gather_facts: True
   roles:
     - base
+    - chromium
     - sensor
     - prometheus
     - grafana

@@ -1,0 +1,9 @@
+---
+- name: Start Chromium in full screen upon system start
+  ansible.builtin.lineinfile:
+    path: /etc/xdg/lxsession/LXDE-pi/autostart
+    line: '@chromium-browser --start-fullscreen http://localhost:3000/d/5gLDWaY7z/temperatur?orgId=1&refresh=1m http://localhost:9090 http://localhost:9091'
+    insertafter: "screensaver"
+    regexp: 'chromium-brwoser'
+  become: true
+  notify: Restart LXDE
