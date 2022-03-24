@@ -14,4 +14,3 @@
     src: "{{ ssh_keyfile_private }}"
     dest: "{{ git_dir }}/ssh-keys"
     mode: "0600"
-

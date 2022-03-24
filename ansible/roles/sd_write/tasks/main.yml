@@ -13,4 +13,3 @@
 - name: Flush all buffers
   command:
     cmd: "sync"
-

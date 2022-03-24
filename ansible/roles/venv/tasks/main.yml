@@ -4,4 +4,3 @@
     chdir: "{{ git_dir }}"
     cmd: make venv
     creates: "{{ git_dir }}/venv/touchfile"
-

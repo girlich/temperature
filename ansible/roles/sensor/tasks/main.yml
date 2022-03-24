@@ -31,7 +31,6 @@
 - name: Make sure the temperature service is running
   ansible.builtin.systemd:
     state: started
-    enabled: yes
+    enabled: true
     name: temperature
   become: true
-

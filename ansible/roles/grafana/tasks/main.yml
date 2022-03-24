@@ -69,4 +69,3 @@
   ansible.builtin.command:
     cmd: "/usr/sbin/grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
   become: true
-

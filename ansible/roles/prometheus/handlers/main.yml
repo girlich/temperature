@@ -4,4 +4,3 @@
     name: prometheus
     state: restarted
   become: yes
-

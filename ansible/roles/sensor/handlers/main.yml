@@ -3,5 +3,4 @@
   ansible.builtin.service:
     name: temperature
     state: restarted
-  become: yes
-
+  become: true
