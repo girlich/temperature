@@ -3,6 +3,11 @@
   ansible.builtin.package:
     name:
       - git
+- name: Use SSH private key to access git
+  community.general.ssh_config:
+    user: git
+    host: github.com
+    identity_file: '{{ ssh_keyfile_private }}'
 - name: Clone git repo
   ansible.builtin.git:
     repo: git@github.com:girlich/temperature.git
