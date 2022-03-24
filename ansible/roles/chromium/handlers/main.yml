@@ -3,5 +3,4 @@
   ansible.builtin.service:
     name: display-manager
     state: restarted
-  become: yes
-
+  become: true

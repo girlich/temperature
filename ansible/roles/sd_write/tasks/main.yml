@@ -1,15 +1,15 @@
 ---
 - name: Get the information about the device
-  shell:
+  ansible.builtin.shell:
     cmd: "ls -l /dev/disk/by-id|grep \\.\\./\\.\\./{{ sd_name }}"
   register: result
 - name: Write the device name and wait for confirmation
-  pause:
+  ansible.builtin.pause:
     prompt: "{{ result }}"
 - name: Write image to the sd card
-  command:
+  ansible.builtin.command:
     cmd: "dd if={{ image_file }} of={{ sd_device }} bs=10M"
   become: true
 - name: Flush all buffers
-  command:
+  ansible.builtin.command:
     cmd: "sync"

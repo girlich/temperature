@@ -4,4 +4,3 @@
     chdir: "{{ git_dir }}"
     cmd: make deps-ansible
     creates: "{{ git_dir }}/venv/galaxy"
-

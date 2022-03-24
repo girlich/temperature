@@ -1,16 +1,16 @@
 ---
 - name: Get partition data of the image
-  command:
+  ansible.builtin.command:
     cmd: "sfdisk -J {{ image_file }}"
   register: partitions
 - name: Select partition
-  set_fact:
+  ansible.builtin.set_fact:
     partition: "{{ (partitions.stdout | from_json).partitiontable.partitions[0] }}"
 - name: Print partition
-  debug:
+  ansible.builtin.debug:
     msg: "Start: {{ partition }}"
 - name: Print partition start and size in bytes
-  debug:
+  ansible.builtin.debug:
     msg: "Start: {{ partition.start * 512 }}, Size: {{ partition.size * 512 }}"
 - name: Mount boot partition
   ansible.posix.mount:
@@ -20,4 +20,3 @@
     fstype: vfat
     state: mounted
   become: true
-

@@ -4,4 +4,3 @@
     path: "{{ mount_dir }}"
     state: unmounted
   become: true
-

@@ -1,21 +1,21 @@
 ---
 - name: read cmdline.txt
   become: true
-  slurp: "src={{ cmdline_txt_path }}"
+  ansible.builtin.slurp: "src={{ cmdline_txt_path }}"
   register: result_cmdline
 
 - name: generate regular expression for existing arguments
-  set_fact:
+  ansible.builtin.set_fact:
     regex_existing: '{{ "\b" + key|string + "=" + ("[\w]*" if update else value|string) + "\b" }}'
     key_value_pair: '{{ key|string + "=" + value|string }}'
 
 - name: generate regular expression for new arguments
-  set_fact:
+  ansible.builtin.set_fact:
     regex_add_missing: '{{ "^((?!(?:.|\n)*" + regex_existing + ")((?:.|\n)*))$" }}'
 
 - name: update cmdline.txt
   become: true
-  copy:
+  ansible.builtin.copy:
     content: '{{ result_cmdline.content
         | b64decode
         | regex_replace(regex_existing, key_value_pair)
@@ -24,4 +24,3 @@
     dest: "{{ cmdline_txt_path }}"
     # mode set is useless because /boot is a "vfat" file system
     mode: "0755"
-

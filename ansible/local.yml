@@ -2,11 +2,10 @@
 - name: Setup the Raspberry Pi temperature sensor server
   hosts: localhost
   connection: local
-  gather_facts: True
+  gather_facts: true
   roles:
     - base
     - chromium
     - sensor
     - prometheus
     - grafana
-

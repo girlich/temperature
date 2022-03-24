@@ -1,9 +1,8 @@
 ---
 - name: Prepare development environment on the Raspberry Pi
   hosts: temperature
-  gather_facts: True
+  gather_facts: true
   roles:
     - devenv
     - venv
     - galaxy
-

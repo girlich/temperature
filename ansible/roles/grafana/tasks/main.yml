@@ -10,7 +10,7 @@
     state: present
   become: true
 - name: Install Grafana
-  package:
+  ansible.builtin.package:
     name:
       - grafana
   become: true
@@ -51,7 +51,7 @@
   notify: Restart Grafana
   become: true
 - name: Provision dashboards
-  template:
+  ansible.builtin.template:
     src: dashboard.yaml.j2
     dest: /etc/grafana/provisioning/dashboards/default.yaml
     mode: "0640"
@@ -62,7 +62,7 @@
 - name: Make sure grafana is running
   ansible.builtin.systemd:
     state: started
-    enabled: yes
+    enabled: true
     name: grafana-server
   become: true
 - name: Setup Grafana admin user password

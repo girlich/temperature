@@ -3,5 +3,4 @@
   ansible.builtin.service:
     name: grafana-server
     state: restarted
-  become: yes
-
+  become: true

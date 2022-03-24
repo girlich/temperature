@@ -1,8 +1,7 @@
 ---
 - name: Copy stuff over to the Raspberry Pi to work from there
   hosts: temperature
-  gather_facts: True
+  gather_facts: true
   roles:
     - git
     - private
-

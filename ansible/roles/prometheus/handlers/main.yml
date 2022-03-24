@@ -3,4 +3,4 @@
   ansible.builtin.service:
     name: prometheus
     state: restarted
-  become: yes
+  become: true
