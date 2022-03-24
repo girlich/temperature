@@ -3,11 +3,23 @@
   ansible.builtin.package:
     name:
       - git
+- name: Install stormssh
+  ansible.builtin.pip:
+    name:
+      - stormssh
+- name: Copy the private SSH key to be used as github deploy key
+  ansible.builtin.copy:
+    src: '{{ ssh_keyfile_private }}'
+    dest: ~/.ssh/id_rsa_github
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 - name: Use SSH private key to access git
   community.general.ssh_config:
-    user: git
+    user: '{{ ansible_user }}'
+    remote_user: git
     host: github.com
-    identity_file: '{{ ssh_keyfile_private }}'
+    identity_file: ~/.ssh/id_rsa_github
 - name: Clone git repo
   ansible.builtin.git:
     repo: git@github.com:girlich/temperature.git
@@ -24,10 +36,10 @@
     repo: '{{ git_dir }}'
     scope: local
     name: user.name
-    value: 'Uwe Girlich on {{ host_name }}'
+    value: '{{ git_user_name }} on {{ host_name }}'
 - name: Set commit user email address
   community.general.git_config:
     repo: '{{ git_dir }}'
     scope: local
     name: user.email
-    value: uwe.girlich@gmail.com
+    value: '{{ git_user_email }}'
