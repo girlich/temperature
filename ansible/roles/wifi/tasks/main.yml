@@ -1,0 +1,10 @@
+---
+- name: Create or update WPA Supplicant configuration
+  ansible.builtin.template:
+    src: wpa_supplicant.conf.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    user: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart WPA Supplicant
