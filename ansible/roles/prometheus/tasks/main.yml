@@ -18,6 +18,13 @@
     mode: '0644'
   become: true
   notify: Restart Prometheus
+- name: Create the Prometheus data directory
+  ansible.builtin.file:
+    path: "{{ prometheus_data_dir }}"
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+    state: directory
 - name: Configure Prometheus to use temperature data only
   ansible.builtin.template:
     src: prometheus.yml.j2
