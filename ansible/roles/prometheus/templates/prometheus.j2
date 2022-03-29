@@ -1,5 +1,5 @@
 # Set the command-line arguments to pass to the server.
-ARGS="--storage.tsdb.retention.time={{ prometheus_retention_time }}"
+ARGS='--storage.tsdb.retention.time={{ prometheus_retention_time }} --storage.tsdb.path="{{ prometheus_data_dir }}"'
 
 # Prometheus supports the following options:
 #  --config.file="/etc/prometheus/prometheus.yml"
