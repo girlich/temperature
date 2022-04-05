@@ -117,7 +117,7 @@ class HttpServer:
     def __init__(self, arguments):
         def handler(*args):
             MyHandler(arguments, *args)
-            
+
         server = HTTPServer(('', arguments.port_number), handler)
         print("root prefix='{}', listen on port {}".format(
            arguments.root, arguments.port_number))
