@@ -2,6 +2,7 @@
 - name: Install useful dev tools
   ansible.builtin.package:
     name:
-      - vim
       - gitk
+      - spyder
+      - vim
   become: true
