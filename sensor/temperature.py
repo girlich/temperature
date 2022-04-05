@@ -50,17 +50,14 @@ data = [
         "value": 53.0, "valid": False},
 ]
 
-root_prefix = 'a'
-
-
-def read_sensors():
+def read_sensors(arguments):
     """
     Read the DS18B20 sensors defined in the array data.
     """
     for d in data:
         d['valid'] = False
         p = "{}/sys/bus/w1/devices/{}/w1_slave".format(
-            root_prefix, d['labels']['id'])
+            arguments.root, d['labels']['id'])
         try:
             with open(p, 'r') as file_descriptor:
                 for line in file_descriptor:
@@ -73,18 +70,36 @@ def read_sensors():
             pass
 
 
-class Handler(BaseHTTPRequestHandler):
+class MyHandler(BaseHTTPRequestHandler):
     """
     This is the HTTP handler class needed to write a basic HTTP server.
     It is derived from BaseHTTPRequestHandler.
     """
+
+    def __init__(self, arguments, *args):
+        """
+
+        Parameters
+        ----------
+        arguments : Namespace filled with parsed command line arguments
+            parsed command line arguments.
+        *args : TYPE
+            rest if the base class constructor arguments.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.arguments = arguments # Remember the arguments.
+        BaseHTTPRequestHandler.__init__(self, *args)
 
     def do_GET(self):
         """
         Overwrite the GET method. Any HTTP GET request comes this way.
         We answer it by reading the sensors and generating prometheus metrics.
         """
-        read_sensors()
+        read_sensors(self.arguments)
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
         self.end_headers()
@@ -97,19 +112,16 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(text, "utf-8"))
 
 
-def server(args):
-    """
-    Start the HTTP server.
-
-    :param args: The command line arguments of the main script.
-    :return: returns nothing
-    """
-    global root_prefix
-    root_prefix = args.root
-    httpd = HTTPServer(('', args.port_number), Handler)
-    print("root prefix='{}', listen on port {}".format(
-        root_prefix, args.port_number))
-    httpd.serve_forever()
+class HttpServer:
+    """Start the HTTP server and remember the arguments in the handler"""
+    def __init__(self, arguments):
+        def handler(*args):
+            MyHandler(arguments, *args)
+            
+        server = HTTPServer(('', arguments.port_number), handler)
+        print("root prefix='{}', listen on port {}".format(
+           arguments.root, arguments.port_number))
+        server.serve_forever()
 
 
 def main():
@@ -119,8 +131,8 @@ def main():
                         help="listen on given port", type=int)
     parser.add_argument("-r", "--root", dest="root", default="",
                         help="prefix sensor files with directory root", type=str)
-    args = parser.parse_args()
-    server(args)
+    arguments = parser.parse_args()
+    HttpServer(arguments)
 
 
 if __name__ == "__main__":
