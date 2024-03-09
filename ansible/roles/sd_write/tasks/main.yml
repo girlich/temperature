@@ -8,7 +8,7 @@
     prompt: "{{ result }}"
 - name: Write image to the sd card
   ansible.builtin.command:
-    cmd: "dd if={{ image_file }} of={{ sd_device }} bs=10M"
+    cmd: "dd if={{ image_file }} of={{ sd_device }} bs=10M status=progress"
   become: true
 - name: Flush all buffers
   ansible.builtin.command:
