@@ -17,8 +17,10 @@ all:
 
 venv: $(V)/touchfile
 
+PYTHON=python3.11
+
 $(V)/touchfile: requirements.txt
-	test -d $(V) || python3 -m venv $(V)
+	test -d $(V) || $(PYTHON) -m venv $(V)
 	$(V)/bin/python3 -m pip install --upgrade pip
 	. $(V)/bin/activate ; pip install -Ur requirements.txt
 	touch $@
