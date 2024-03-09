@@ -1,5 +1,4 @@
 archive_dir: ../archive
-archive_file: "{{ archive_dir }}/{{ image_version }}.zip"
 temp_dir: ../temp_dir
 image_dir: "{{ temp_dir }}"
 image_file: "{{ image_dir }}/{{ image_version }}.img"
