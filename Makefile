@@ -10,13 +10,15 @@ all:
 	@echo "venv        prepare virtual Python environment"
 	@echo "activate    jump into the virtual Python environment interactively"
 	@echo "sd          create an SD card locally"
-	@echo "remote      configure the remote server"
-	@echo "copy        copy stuff to the remopte server to continue working from there"
+	@echo "copy        copy stuff to the remote server to continue working from there"
+	@echo "dev         prepare a development environment of the server"
+	@echo "local       configure the local server"
 	@echo "update-git  get the most current version"
 	@echo "update-os   update the operating system and packages in it"
 
 venv: $(V)/touchfile
 
+# If you need a newer Python, change this here.
 PYTHON=python3.11
 
 $(V)/touchfile: requirements.txt
@@ -40,7 +42,7 @@ sd:
 copy:
 	cd ansible ; ansible-playbook copy.yml --extra-vars "@../../private.yml"
 
-# Make sure deveopment works there.
+# Make sure development works there.
 dev:
 	cd ansible ; ansible-playbook dev.yml --extra-vars "@../../private.yml"
 
