@@ -1,7 +1,7 @@
 # temperature
 Project to completely setup and manage a self-made temperature sensor system
 
-Cabling:
+Cabling to DS18B20:
 * Power
   * Pin: 1
   * Column: Left
@@ -13,8 +13,20 @@ Cabling:
   * Row: 4
   * Usage: (GPCLK0) GPIO 4
 * Ground
-  * Pin: 30
-  * Column: Right
-  * Row: 15
+  * Pin: 9
+  * Column: Left
+  * Row: 5
   * Usage: Ground
-
+Cabling to Fan:
+* Power
+  * Pin: 4
+  * Column: Right
+  * Row: 2
+  * Usage: +5V
+  * Color: Red
+* Ground
+  * Pin: 6
+  * Column: Right
+  * Row: 3
+  * Usage: Ground
+  * Color: Black
