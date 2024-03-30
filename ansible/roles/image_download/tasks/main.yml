@@ -1,0 +1,70 @@
+---
+- name: Call rpi-imager to get the repository name
+  ansible.builtin.cmd:
+    cmd: "{{ rpi_imager }} --version"
+  register: rpi_imager_version
+- name: Extract repository URL
+  ansible.builtin.set_fact:
+    image_repository_url: "{{ rpi_imager_version.stderr | ansible.builtin.regex_search('https://.*json') }}"
+- name: Download image repository meta data
+  ansible.builtin.uri:
+    url: "{{ image_repository_url }}"
+    method: GET
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: image_repository_json
+- name: Extract information for our base image
+  ansible.builtin.set_fact:
+    image_url: "{{ item.url }}"
+    image_plain_checksum: "{{ item.extract_sha256 }}"
+  when: item.name == image_name
+  loop: "{{ image_repository_json.json.os_list }}"
+- name: Print info
+  ansible.builtin.debug:
+    msg: "Image: {{ image_url }}, SHA256: {{ image_plain_checksum }}"
+- name: Local file name of the compressed image
+  ansible.builtin.set_fact:
+    image_compressed_filename: "{{ image_url | ansible.builtin.regex_search('/[^/]+$') | ansible.builtin.basename }}"
+- name: Local file name of the plain image
+  ansible.builtin.set_fact:
+    image_plain_filename: "{{ image_compressed_filename | ansible.builtin.regex_search('.*img') }}"
+- name: Print info
+  ansible.builtin.debug:
+    msg: "compressed: {{ image_compressed_filename }}, plain: {{ image_plain_filename }}"
+- name: Create the archive directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ archive_dir }}"
+    mode: "0755"
+- name: Download the compressed OS image file
+  ansible.builtin.get_url:
+    url: "{{ image_url }}"
+    dest: "{{ archive_dir }}/{{ image_compressed_filename }}"
+    mode: '0440'
+    force: false
+- name: Create the temporary directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ temp_dir }}"
+    mode: "0755"
+- name: Set complete path file name of the plain image
+  ansible.builtin.set_fact:
+    image_plain_pathname: "{{ temp_dir }}/{{ image_plain_filename }}"
+- name: Uncompress the compressed OS image file
+  ansible.builtin.shell:
+    cmd: "xz --keep --stdout --decompress {{ archive_dir }}/{{ image_compressed_filename }} > {{ image_plain_pathname }}"
+    creates: "{{ image_plain_pathname }}"
+- name: Get sha256 sum of the plain image
+  ansible.builtin.stat:
+    path: "{{ image_plain_pathname }}"
+    checksum_algorithm: sha256
+    get_checksum: yes
+  register: image_plain_stat
+- name: Verify sha256sum of image before usage
+  fail:
+    msg: "Failure, file is not correct."
+  when: image_plain_stat.stat.checksum != image_plain_checksum
+- name: "Output the final result: pathname of the downloaded and uncompressed image file"
+  ansible.builtin.debug:
+    msg: "Image file is: {{ image_plain_pathname }}"
