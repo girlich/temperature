@@ -1,3 +1,8 @@
 ansible
 ansible-lint
+cython
+docker
 passlib
+pyyaml
+docker-compose
+jmespath
