@@ -1,0 +1,12 @@
+---
+- name: Generate a SSH keypair
+  community.crypto.openssh_keypair:
+    path: "{{ ssh_keyfile_private }}"
+    mode: 0600
+- name: Read the public SSH key
+  ansible.builtin.slurp:
+    src: "{{ ssh_keyfile_public }}"
+  register: keyfile
+- name: Get the public SSH key itself
+  ansible.builtin.set_fact:
+    ssh_key_public: "{{ keyfile.content | b64decode }}"
