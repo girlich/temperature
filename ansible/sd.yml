@@ -4,7 +4,8 @@
   connection: local
   gather_facts: true
   roles:
-    - os_get
+    - image_download
+    - ssh_keys
     - boot_mount
     - boot_prepare
     - boot_umount

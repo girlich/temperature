@@ -1,6 +1,6 @@
 ---
 - name: Call rpi-imager to get the repository name
-  ansible.builtin.cmd:
+  ansible.builtin.command:
     cmd: "{{ rpi_imager }} --version"
   register: rpi_imager_version
 - name: Extract repository URL

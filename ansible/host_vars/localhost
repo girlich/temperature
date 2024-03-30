@@ -1,6 +1,21 @@
+# Where to store the expanded file.
 archive_dir: ../archive
 temp_dir: ../temp_dir
 image_dir: "{{ temp_dir }}"
+# Image name, to base everything on
+image_name: "Raspberry Pi OS (64-bit)"
+
+cloudinit_userdata: "{{ temp_dir }}/userdata"
+cloudinit_networkconfig: "{{ temp_dir }}/networkconfig"
+
+# How to call the rpi-imager
+rpi_imager: "rpi-imager"
+
 image_file: "{{ image_dir }}/{{ image_version }}.img"
-mount_dir: "{{ temp_dir }}/mount"
+mount_dir_boot: "{{ temp_dir }}/boot"
+mount_dir_root: "{{ temp_dir }}/root"
 sd_device: "/dev/{{ sd_name }}"
+pigen_base_image: debian:12-slim
+pigen_compose: ../pigenc
+pigen_dockerfile: "{{ pigen_compose }}/Dockerfile"
+

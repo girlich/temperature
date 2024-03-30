@@ -9,7 +9,7 @@ sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t{{ host_name }}/g" /etc/hosts
 FIRSTUSER=`getent passwd 1000 | cut -d: -f1`
 FIRSTUSERGROUP=`getent passwd 1000 | cut -d: -f4`
 FIRSTUSERHOME=`getent passwd 1000 | cut -d: -f6`
-# echo "$FIRSTUSER:"'{{ user_password_crypt }}' | chpasswd -e
+echo "$FIRSTUSER:"'{{ user_password_crypt }}' | chpasswd -e
 
 systemctl enable ssh
 mkdir -p $FIRSTUSERHOME/.ssh
@@ -52,10 +52,10 @@ XKBOPTIONS=""
 KBEOF
 dpkg-reconfigure -f noninteractive keyboard-configuration
 
-cp /boot/firstrun.sh /boot/firstrun.sh--old
-cp /boot/cmdline.txt /boot/cmdline.txt--old
+cp /boot/firmware/firstrun.sh /boot/firmware/firstrun.sh--old
+cp /boot/firmware/cmdline.txt /boot/firmware/cmdline.txt--old
 
-rm -f /boot/firstrun.sh
-sed -i 's| systemd.run.*||g' /boot/cmdline.txt
+rm -f /boot/firmware/firstrun.sh
+sed -Ei 's|systemd\.\S+||g' /boot/firmware/cmdline.txt
 exit 0
 

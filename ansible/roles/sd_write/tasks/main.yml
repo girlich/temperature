@@ -3,7 +3,7 @@
   ansible.builtin.shell:
     cmd: "ls -l /dev/disk/by-id|grep \\.\\./\\.\\./{{ sd_name }}"
   register: result
-- name: Write the device name and wait for confirmation
+- name: Wait for confirmation to overwrite the device
   ansible.builtin.pause:
     prompt: "{{ result }}"
 - name: Write image to the sd card

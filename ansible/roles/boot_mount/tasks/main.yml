@@ -1,22 +1,45 @@
 ---
+- name: Copy uncompressed image into a new image file
+  ansible.builtin.copy:
+    src: "{{ image_plain_pathname }}"
+    dest: "{{ image_file }}"
 - name: Get partition data of the image
   ansible.builtin.command:
     cmd: "sfdisk -J {{ image_file }}"
   register: partitions
-- name: Select partition
+
+- name: Select boot partition
   ansible.builtin.set_fact:
-    partition: "{{ (partitions.stdout | from_json).partitiontable.partitions[0] }}"
-- name: Print partition
+    partition_boot: "{{ (partitions.stdout | from_json).partitiontable.partitions[0] }}"
+- name: Print boot partition
   ansible.builtin.debug:
-    msg: "Start: {{ partition }}"
-- name: Print partition start and size in bytes
+    msg: "Boot Partition Start: {{ partition_boot }}"
+- name: Print boot partition start and size in bytes
   ansible.builtin.debug:
-    msg: "Start: {{ partition.start * 512 }}, Size: {{ partition.size * 512 }}"
+    msg: "Start: {{ partition_boot.start * 512 }}, Size: {{ partition_boot.size * 512 }}"
 - name: Mount boot partition
   ansible.posix.mount:
     src: "{{ image_file }}"
-    path: "{{ mount_dir }}"
-    opts: "loop,offset={{ partition.start * 512 }},sizelimit={{ partition.size * 512 }},umask=000"
+    path: "{{ mount_dir_boot }}"
+    opts: "loop,offset={{ partition_boot.start * 512 }},sizelimit={{ partition_boot.size * 512 }},umask=000"
     fstype: vfat
-    state: mounted
+    state: ephemeral
+  become: true
+
+- name: Select root partition
+  ansible.builtin.set_fact:
+    partition_root: "{{ (partitions.stdout | from_json).partitiontable.partitions[1] }}"
+- name: Print root partition
+  ansible.builtin.debug:
+    msg: "Root Partition Start: {{ partition_root }}"
+- name: Print root partition start and size in bytes
+  ansible.builtin.debug:
+    msg: "Start: {{ partition_root.start * 512 }}, Size: {{ partition_root.size * 512 }}"
+- name: Mount root partition
+  ansible.posix.mount:
+    src: "{{ image_file }}"
+    path: "{{ mount_dir_root }}"
+    opts: "loop,offset={{ partition_root.start * 512 }},sizelimit={{ partition_root.size * 512 }}"
+    fstype: ext4
+    state: ephemeral
   become: true
