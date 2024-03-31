@@ -1,8 +1,8 @@
 ---
 - name: Activate the overlay for 1-wire
   ansible.builtin.lineinfile:
-    path: /boot/config.txt
+    path: /boot/firmware/config.txt
     line: dtoverlay=w1-gpio,gpiopin=4
     regexp: '^dtoverlay=w1.*$'
   become: true
-  notify: Reboot temperature
+  notify: Reboot the server
