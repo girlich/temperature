@@ -1,9 +1,20 @@
 ---
-- name: Install git
+- name: Install some basic packages
   ansible.builtin.package:
     name:
       - git
-- name: Install stormssh
+      - python3-paramiko
+  become: true
+- name: Get stats of python3
+  ansible.builtin.stat:
+    path: /usr/bin/python3
+  register: st
+- name: Remove EXTERNALLY-MANAGED
+  ansible.builtin.file:
+    path: "/usr/lib/{{ st.stat.lnk_target }}/EXTERNALLY-MANAGED"
+    state: absent
+  become: true
+- name: Install stormssh via pip
   ansible.builtin.pip:
     name:
       - stormssh
@@ -20,6 +31,13 @@
     remote_user: git
     host: github.com
     identity_file: ~/.ssh/id_rsa_github
+- name: Prepare a ready made list of known hosts (downloaded from https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
+  ansible.builtin.copy:
+    src: known_hosts
+    dest: ~/.ssh/known_hosts
+    mode: "0600"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 - name: Clone git repo
   ansible.builtin.git:
     repo: git@github.com:girlich/temperature.git
