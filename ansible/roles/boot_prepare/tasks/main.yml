@@ -1,25 +1,7 @@
 ---
-- name: Copy firstrun.sh into the image
+- name: Copy custom.toml into the image
   ansible.builtin.template:
-    src: firstrun.sh.j2
-    dest: "{{ mount_dir_boot }}/firstrun.sh"
-    mode: "0755"
+    src: custom.toml.j2
+    dest: "{{ mount_dir_boot }}/custom.toml"
+    mode: "0644"
   become: true
-- name: Set the path for the file cmdline.txt
-  ansible.builtin.set_fact:
-    cmdline_txt_path: "{{ mount_dir_boot }}/cmdline.txt"
-- include_tasks: cmdline.yml
-  vars:
-    key: systemd.run
-    value: /boot/firmware/firstrun.sh
-    update: true
-- include_tasks: cmdline.yml
-  vars:
-    key: systemd.run_success_action
-    value: reboot
-    update: true
-- include_tasks: cmdline.yml
-  vars:
-    key: systemd.unit
-    value: kernel-command-line.target
-    update: true

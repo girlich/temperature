@@ -9,4 +9,4 @@
   register: keyfile
 - name: Get the public SSH key itself
   ansible.builtin.set_fact:
-    ssh_key_public: "{{ keyfile.content | b64decode }}"
+    ssh_key_public: "{{ keyfile.content | b64decode | trim }}"

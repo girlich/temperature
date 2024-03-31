@@ -1,0 +1,27 @@
+config_version = 1
+
+[system]
+hostname = "{{ host_name }}"
+
+[user]
+name = "pi"
+# To encrypt, we can use "openssl passwd -5 raspberry"
+password = "{{ user_password_crypt }}"
+password_encrypted = true
+
+[ssh]
+enabled = true
+password_authentication = false
+authorized_keys = [ "{{ ssh_key_public }}" ]
+
+[wlan]
+ssid = "{{ wifi_ssid }}"
+password = "{{ wifi_psk }}"
+password_encrypted = false
+hidden = false
+country = "{{ wifi_country }}"
+
+[locale]
+keymap = "{{ keymap }}"
+timezone = "{{ timezone }}"
+
