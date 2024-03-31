@@ -15,7 +15,4 @@ image_file: "{{ image_dir }}/{{ image_version }}.img"
 mount_dir_boot: "{{ temp_dir }}/boot"
 mount_dir_root: "{{ temp_dir }}/root"
 sd_device: "/dev/{{ sd_name }}"
-pigen_base_image: debian:12-slim
-pigen_compose: ../pigenc
-pigen_dockerfile: "{{ pigen_compose }}/Dockerfile"
 
