@@ -5,7 +5,6 @@
   gather_facts: true
   roles:
     - base
-    - wifi
     - chromium
     - sensor
     - prometheus
