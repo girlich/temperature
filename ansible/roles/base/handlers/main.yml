@@ -1,4 +1,5 @@
 ---
 - name: Reboot the server
-  ansible.builtin.reboot:
+  ansible.builtin.command:
+    cmd: "/usr/bin/systemctl reboot"
   become: true
