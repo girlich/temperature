@@ -1,0 +1,21 @@
+# General private stuff
+git_user_name: Test User
+git_user_email: test@domain.com
+
+# WiFi
+wifi_ssid: "ThisIsMySSID"
+wifi_psk: "ThisIsMyPrivatePassword"
+
+# SD card device
+sd_name: "sdb"
+
+# Host to connect to in the LAN
+ansible_host: 192.168.0.123
+host_name: tempsensor
+ansible_user: pi
+ansible_private_key_file: "{{ ssh_keyfile_private }}"
+user_password_clean: myloginpasswordcannotbeguessed
+
+# Grafana
+grafana_admin_password: mygrafanaadminpasswordissupersecret
+
