@@ -48,12 +48,12 @@ After overwriting the µSD card with the new image `sync` is used to flush all b
 ### Transfer SD card
 Remove the SD card from the PC and put it into the Raspberry Pi. Power it up. It should start and reboot twice automatically. Then the system should be ready to be reached over the network by SSH, which is necessary for Ansible to configure the system over the network.
 ### Login via SSH
-You should logion via SSH just to make sure it works and then log out again.
+You should logion via SSH just to make sure it works and then log out again. If your router gives the new host its designated name, everything is fine. You can also configure the new name only for SSH.
 ```
 $ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
 $ exit
 ```
-Beside basic customiziations (WiFi, SSH, user credentials) nothing is installed yet but you need to have the SSH host key locally stored in `~/.ssh/known_hosts` allow Ansible to continue.
+Beside basic customiziations (WiFi, SSH, user credentials) nothing is installed yet but you need to have the SSH host key locally stored in `~/.ssh/known_hosts` to allow Ansible to continue.
 ### Configure the base system
 Back on the PC you let Ansible copy over some stuff needed from the PC (like private SSH key, `private.yml`, the Git repository) to the target system. The code itself is then there.
 ```
@@ -71,6 +71,12 @@ $ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
 $ cd temperature/git ; make activate
 $ make local
 ```
-This is finally the step to install the sensor Python script, Prometheus, Grafana and connect of it together. It even prepares a full screen Chromium browser with the important tabs already open. As the last step the system will reboot again (an log you out in the process).
-## Use the graphical console
-The system is now set up properly. You should see on the graphicaal console a browser with 3 tabs: Grafana with the dashboard, Prometheus to see the raw data and in the final tab the actual temperature exporter.
+This is finally the step to install the sensor Python script, Prometheus, Grafana and connect all of it together. It even prepares a full screen Chromium browser with the important tabs already open. As the last step the system will reboot again (an log you out of the SSH session in the process).
+
+## Update of the Operating System
+When the system came up again, it is recommended to perform an update of the installed packages from the operating system.
+```
+$ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
+$ cd temperature/git ; make activate
+$ make update-os
+```
