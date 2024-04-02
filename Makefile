@@ -56,4 +56,5 @@ update-git:
 update-os:
 	sudo apt update
 	sudo apt upgrade -y
+	sudo apt autoremove
 
