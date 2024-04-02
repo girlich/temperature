@@ -1,0 +1,10 @@
+---
+- name: Set language
+  ansible.builtin.command:
+    cmd: "/usr/bin/raspi-config nonint do_change_locale {{ config_lang }}"
+  become: true
+- name: Set keymap
+  ansible.builtin.command:
+    cmd: "/usr/bin/raspi-config nonint do_configure_keyboard {{ config_keymap }}"
+  become: true
+
