@@ -29,3 +29,9 @@ prometheus_url: http://localhost:9090
 prometheus_data_dir: /var/lib/prometheus/metrics2/
 prometheus_retention_time: 1000d
 
+# Customization
+config_lang: "de_DE.UTF-8"
+config_keymap: "de"
+config_wifi_country: "DE"
+config_timezone: "Europe/Berlin"
+

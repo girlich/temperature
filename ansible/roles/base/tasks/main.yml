@@ -6,3 +6,9 @@
     regexp: '^dtoverlay=w1.*$'
   become: true
   notify: Reboot the server
+- name: Set language
+  ansible.builtin.command:
+    cmd: "/usr/bin/raspi-config nonint do_configure_locale {{ config_lang }}"
+- name: Set keymap
+  ansible.builtin.command:
+    cmd: "/usr/bin/raspi-config nonint do_configure_keyboard {{ config_keymap }}"
