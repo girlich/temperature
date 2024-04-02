@@ -1,6 +1,5 @@
 ansible
 ansible-lint
 cython
-docker
 passlib
 jmespath

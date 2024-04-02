@@ -1,9 +1,11 @@
 ---
-- name: Start Chromium in full screen upon system start
-  ansible.builtin.lineinfile:
-    path: /etc/xdg/lxsession/LXDE-pi/autostart
-    line: '@chromium-browser --start-fullscreen http://localhost:3000/d/5gLDWaY7z/temperatur?orgId=1&refresh=1m http://localhost:9090 http://localhost:9091'
-    insertafter: "screensaver"
-    regexp: 'chromium-brwoser'
-  become: true
-  notify: Restart LXDE
+- name: Start Chromium in full screen upon (auto-) login
+  community.general.ini_file:
+    path: "/home/{{ ansible_user }}/.config/wayfire.ini"
+    section: autostart
+    option: "chromium"
+    value: "chromium-browser --start-maximized 'http://localhost:3000/d/5gLDWaY7z/temperatur?orgId=1&refresh=1m' 'http://localhost:9090/classic/graph?g0.range_input=1h&g0.expr=temperature&g0.tab=1' http://localhost:9091"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+  notify: Restart Display Manager

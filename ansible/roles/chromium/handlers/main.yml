@@ -1,5 +1,5 @@
 ---
-- name: Restart LXDE
+- name: Restart Display Manager
   ansible.builtin.service:
     name: display-manager
     state: restarted
