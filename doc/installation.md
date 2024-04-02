@@ -71,6 +71,6 @@ $ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
 $ cd temperature/git ; make activate
 $ make local
 ```
-This is finally the step to install the sensor Python script, Prometheus, Grafana and connect of it together. It even prepares a full screen Chromium browser with the important tabs already open.
+This is finally the step to install the sensor Python script, Prometheus, Grafana and connect of it together. It even prepares a full screen Chromium browser with the important tabs already open. As the last step the system will reboot again (an log you out in the process).
 ## Use the graphical console
-The system is now set up properly. You should see on the console a browser with 3 tabs: Grafana with the dashboard, Prometheus to see the raw data and in the final tab the actual temperature exporter.
+The system is now set up properly. You should see on the graphicaal console a browser with 3 tabs: Grafana with the dashboard, Prometheus to see the raw data and in the final tab the actual temperature exporter.
