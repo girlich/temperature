@@ -67,12 +67,12 @@
   become: true
 - name: Wait for Grafana to be ready
   wait_for:
-    host: "127.0.0.1"
-    port: 3000
+    host: "{{ grafana_host }}"
+    port: "{{ grafana_port }}"
     state: started
     delay: 5
     timeout: 60
 - name: Setup Grafana admin user password
   ansible.builtin.command:
-    cmd: "/usr/sbin/grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
+    cmd: "/usr/sbin/grafana-cli admin reset-admin-password {{ temp.grafana.admin.password }}"
   become: true

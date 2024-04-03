@@ -4,17 +4,13 @@ image_name: "Raspberry Pi OS (64-bit)"
 # How to call the rpi-imager
 rpi_imager: "rpi-imager"
 
-# SD card
+# What do we call the image
 image_version: bookworm
-archive_ext: "xz"
-archive_file: "{{ archive_dir }}/{{ image_version }}.img.{{ archive_ext }}"
-archive_url: "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-12-06/{{ image_version }}.img.{{ archive_ext }}"
-archive_checksum: "sha256:5c54f0572d61e443a32dfa80aa8d918049814bfc70ab977f2d545eef45f1658e"
 
 # User on the host
-user_password_crypt: "{{ user_password_clean | password_hash('sha512', 'mysecretsalt') }}"
+user_password_crypt: "{{ temp.user.password_clean | password_hash('sha512', 'mysecretsalt') }}"
 ssh_keyfile_dir: "../ssh-keys"
-ssh_keyfile_private: "{{ ssh_keyfile_dir }}/ssh_key_{{ host_name }}"
+ssh_keyfile_private: "{{ ssh_keyfile_dir }}/ssh_key_{{ temp.hostname }}"
 ssh_keyfile_public: "{{ ssh_keyfile_private }}.pub"
 user_home_dir: "/home/{{ ansible_user }}"
 
@@ -23,15 +19,4 @@ project_base: "{{ user_home_dir }}/temperature"
 
 # Git stuff
 git_dir: "{{ project_base }}/git"
-
-# Prometheus
-prometheus_url: http://localhost:9090
-prometheus_data_dir: /var/lib/prometheus/metrics2/
-prometheus_retention_time: 1000d
-
-# Customization
-config_lang: "de_DE.UTF-8"
-config_keymap: "de"
-config_wifi_country: "DE"
-config_timezone: "Europe/Berlin"
 

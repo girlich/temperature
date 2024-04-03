@@ -127,7 +127,7 @@ class HttpServer:
 def main():
     """The main function of the script."""
     parser = ArgumentParser()
-    parser.add_argument("-l", "--listen", dest="port_number", default=9090,
+    parser.add_argument("-l", "--listen", dest="port_number", default=9091,
                         help="listen on given port", type=int)
     parser.add_argument("-r", "--root", dest="root", default="",
                         help="prefix sensor files with directory root", type=str)

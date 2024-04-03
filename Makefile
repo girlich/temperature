@@ -52,13 +52,14 @@ local:
 	cd ansible ; ansible-playbook local.yml --extra-vars "@../../private.yml"
 
 # Get copnfiguration values out of the main configuration file.
-USER_NAME=$(shell yq -r .ansible_user < ../private.yml)
-HOST_NAME=$(shell yq -r .host_name < ../private.yml)
-SSH_KEY=ssh-keys/ssh_key_$(HOST_NAME)
+ANSIBLE_HOST=$(shell yq -r .ansible_host < ../private.yml)
+ANSIBLE_USER=$(shell yq -r .ansible_user < ../private.yml)
+HOSTNAME=$(shell yq -r .temp.hostname < ../private.yml)
+SSH_KEY=ssh-keys/ssh_key_$(HOSTNAME)
 
 # Login from the PC to the Raspberry Pi using the generated SSH key
 ssh:
-	ssh -i $(SSH_KEY) $(USER_NAME)@$(HOST_NAME)
+	ssh -i $(SSH_KEY) $(ANSIBLE_USER)@$(ANSIBLE_HOST)
 
 # Update the git repo
 update-git:

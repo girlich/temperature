@@ -7,7 +7,11 @@
   ansible.builtin.command:
     cmd: "sfdisk -J {{ image_file }}"
   register: partitions
-
+- name: Create the mount point
+  ansible.builtin.file:
+    state: directory
+    path: "{{ mount_dir_boot }}"
+    mode: "0755"
 - name: Select boot partition
   ansible.builtin.set_fact:
     partition_boot: "{{ (partitions.stdout | from_json).partitiontable.partitions[0] }}"
@@ -26,20 +30,3 @@
     state: ephemeral
   become: true
 
-- name: Select root partition
-  ansible.builtin.set_fact:
-    partition_root: "{{ (partitions.stdout | from_json).partitiontable.partitions[1] }}"
-- name: Print root partition
-  ansible.builtin.debug:
-    msg: "Root Partition Start: {{ partition_root }}"
-- name: Print root partition start and size in bytes
-  ansible.builtin.debug:
-    msg: "Start: {{ partition_root.start * 512 }}, Size: {{ partition_root.size * 512 }}"
-- name: Mount root partition
-  ansible.posix.mount:
-    src: "{{ image_file }}"
-    path: "{{ mount_dir_root }}"
-    opts: "loop,offset={{ partition_root.start * 512 }},sizelimit={{ partition_root.size * 512 }}"
-    fstype: ext4
-    state: ephemeral
-  become: true

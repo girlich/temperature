@@ -1,21 +1,42 @@
-# General private stuff
-git_user_name: Test User
-git_user_email: test@domain.com
-
-# WiFi
-wifi_ssid: "ThisIsMySSID"
-wifi_psk: "ThisIsMyPrivatePassword"
-
-# SD card device
-sd_name: "sdb"
-
-# Host to connect to in the LAN
+# Needed to reach the Rasspberry Pi via SSH over the network.
 ansible_host: 192.168.0.123
-host_name: tempsensor
-ansible_user: pi
+# User name.
+ansible_user: rpi
+# For SSH a private key file is needed. The default is created automatically.
 ansible_private_key_file: "{{ ssh_keyfile_private }}"
-user_password_clean: myloginpasswordcannotbeguessed
 
-# Grafana
-grafana_admin_password: mygrafanaadminpasswordissupersecret
+# Configuration for the temperature sensor
+temp:
+# Under what account the GitHub repository will be written into.
+  git:
+    user:
+      name: Test User
+      email: test@domain.com
+# WiFi configuration
+  wifi:
+    # SSID
+    ssid: "ThisIsMySSID"
+    # PSK in clear text
+    psk: "ThisIsMyPrivatePassword"
+    # WiFi country
+    country: "DE"
+# SD card device
+  sd:
+    device: "sdb"
+# Host name used inside the Raspberry Pi
+  hostname: tempsensor
+# Password of the user {{ ansible_user }}
+  user:
+    password_clean: "myloginpasswordcannotbeguessed"
+# Grafana admin password
+  grafana:
+    admin:
+      password: "mygrafanaadminpasswordissupersecret"
+# Keyboard settings
+  keyboard:
+    layout: "de"
+# Timezone
+  timezone: "Europe/Berlin"
+# LANG
+  lang: "de_DE.UTF-8"
 

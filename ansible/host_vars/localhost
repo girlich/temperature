@@ -1,18 +1,28 @@
 # Where to store the expanded file.
-archive_dir: ../archive
-temp_dir: ../temp_dir
+archive_dir: "../archive"
+temp_dir: "../temp-dir"
 image_dir: "{{ temp_dir }}"
 # Image name, to base everything on
 image_name: "Raspberry Pi OS (64-bit)"
-
-cloudinit_userdata: "{{ temp_dir }}/userdata"
-cloudinit_networkconfig: "{{ temp_dir }}/networkconfig"
 
 # How to call the rpi-imager
 rpi_imager: "rpi-imager"
 
 image_file: "{{ image_dir }}/{{ image_version }}.img"
-mount_dir_boot: "{{ temp_dir }}/boot"
-mount_dir_root: "{{ temp_dir }}/root"
-sd_device: "/dev/{{ sd_name }}"
+mount_dir_boot: "{{ temp_dir }}/bootfs"
+sd_device: "/dev/{{ temp.sd.device }}"
+
+sensor_host: localhost
+sensor_port: 9091
+sensor_url: "http://{{ sensor_host }}:{{ sensor_port }}"
+
+prometheus_host: localhost
+prometheus_port: 9090
+prometheus_url: "http://{{ prometheus_host }}:{{ prometheus_port }}"
+prometheus_data_dir: /var/lib/prometheus/metrics2/
+prometheus_retention_time: 1000d
+
+grafana_host: localhost
+grafana_port: 3000
+grafana_url: "http://{{ grafana_host }}:{{ grafana_port }}"
 

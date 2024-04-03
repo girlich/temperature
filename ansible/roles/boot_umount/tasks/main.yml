@@ -4,8 +4,3 @@
     path: "{{ mount_dir_boot }}"
     state: unmounted
   become: true
-- name: Umount root partition
-  ansible.posix.mount:
-    path: "{{ mount_dir_root }}"
-    state: unmounted
-  become: true

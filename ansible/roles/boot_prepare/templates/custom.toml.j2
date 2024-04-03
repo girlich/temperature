@@ -1,7 +1,7 @@
 config_version = 1
 
 [system]
-hostname = "{{ host_name }}"
+hostname = "{{ temp.hostname }}"
 
 [user]
 name = "pi"
@@ -15,13 +15,13 @@ password_authentication = false
 authorized_keys = [ "{{ ssh_key_public }}" ]
 
 [wlan]
-ssid = "{{ wifi_ssid }}"
-password = "{{ wifi_psk }}"
+ssid = "{{ temp.wifi.ssid }}"
+password = "{{ temp.wifi.psk }}"
 password_encrypted = false
 hidden = false
-country = "{{ config_wifi_country }}"
+country = "{{ temp.wifi.country }}"
 
 [locale]
-keymap = "{{ config_keymap }}"
-timezone = "{{ config_timezone }}"
+keymap = "{{ temp.keyboard.layout }}"
+timezone = "{{ temp.timezone }}"
 

@@ -25,5 +25,5 @@ rule_files:
 scrape_configs:
   - job_name: temperature
     static_configs:
-      - targets: ['localhost:9091']
+      - targets: ['{{ sensor_host }}:{{ sensor_port }}']
 

@@ -54,10 +54,10 @@
     repo: '{{ git_dir }}'
     scope: local
     name: user.name
-    value: '{{ git_user_name }} on {{ host_name }}'
+    value: '{{ temp.git.user.name }} on {{ temp.hostname }}'
 - name: Set commit user email address
   community.general.git_config:
     repo: '{{ git_dir }}'
     scope: local
     name: user.email
-    value: '{{ git_user_email }}'
+    value: '{{ temp.git.user.email }}'

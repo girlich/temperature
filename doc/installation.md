@@ -50,7 +50,7 @@ Remove the SD card from the PC and put it into the Raspberry Pi. Power it up. It
 ### Login via SSH
 You should logion via SSH just to make sure it works and then log out again. If your router gives the new host its designated name, everything is fine. You can also configure the new name only for SSH.
 ```
-$ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
+$ make ssh
 $ exit
 ```
 Beside basic customiziations (WiFi, SSH, user credentials) nothing is installed yet but you need to have the SSH host key locally stored in `~/.ssh/known_hosts` to allow Ansible to continue.
@@ -67,16 +67,16 @@ This will install many development tools and prepare the Git repository by alrea
 ## Final setup on the system
 ### Install the actual stuff locally
 ```
-$ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
+$ make ssh
 $ cd temperature/git ; make activate
 $ make local
 ```
 This is finally the step to install the sensor Python script, Prometheus, Grafana and connect all of it together. It even prepares a full screen Chromium browser with the important tabs already open. As the last step the system will reboot again (an log you out of the SSH session in the process).
 
 ## Update of the Operating System
-When the system came up again, it is recommended to perform an update of the installed packages from the operating system.
+When the system comes up again, it is recommended to perform an update of the installed packages from the operating system.
 ```
-$ ssh -i ssh-keys/ssh_key_tempsens pi@tempsens
-$ cd temperature/git ; make activate
+$ make ssh
+$ cd temperature/git
 $ make update-os
 ```
