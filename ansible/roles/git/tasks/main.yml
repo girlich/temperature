@@ -31,7 +31,8 @@
     remote_user: git
     host: github.com
     identity_file: ~/.ssh/id_rsa_github
-- name: Prepare a ready made list of known hosts (downloaded from https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
+- name: Prepare a ready made list of known hosts
+  # downloaded from https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)
   ansible.builtin.copy:
     src: known_hosts
     dest: ~/.ssh/known_hosts

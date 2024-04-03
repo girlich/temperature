@@ -3,6 +3,7 @@
   ansible.builtin.copy:
     src: "{{ image_plain_pathname }}"
     dest: "{{ image_file }}"
+    mode: "0644"
 - name: Get partition data of the image
   ansible.builtin.command:
     cmd: "sfdisk -J {{ image_file }}"
@@ -29,4 +30,3 @@
     fstype: vfat
     state: ephemeral
   become: true
-

@@ -7,4 +7,3 @@
   ansible.builtin.command:
     cmd: "/usr/bin/raspi-config nonint do_configure_keyboard {{ temp.keyboard.layout }}"
   become: true
-

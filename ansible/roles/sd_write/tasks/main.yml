@@ -1,7 +1,8 @@
 ---
 - name: Get the information about the device
-  ansible.builtin.shell:
-    cmd: "ls -l /dev/disk/by-id|grep \\.\\./\\.\\./{{ temp.sd.device }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    ls -l /dev/disk/by-id|grep "\\.\\./\\.\\./{{ temp.sd.device }}"
   register: result
 - name: Wait for confirmation to overwrite the device
   ansible.builtin.pause:

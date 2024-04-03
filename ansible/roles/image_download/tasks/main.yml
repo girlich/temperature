@@ -10,7 +10,7 @@
   ansible.builtin.uri:
     url: "{{ image_repository_url }}"
     method: GET
-    return_content: yes
+    return_content: true
     status_code: 200
     body_format: json
   register: image_repository_json
@@ -59,10 +59,10 @@
   ansible.builtin.stat:
     path: "{{ image_plain_pathname }}"
     checksum_algorithm: sha256
-    get_checksum: yes
+    get_checksum: true
   register: image_plain_stat
 - name: Verify sha256sum of image before usage
-  fail:
+  ansible.builtin.fail:
     msg: "Failure, file is not correct."
   when: image_plain_stat.stat.checksum != image_plain_checksum
 - name: "Output the final result: pathname of the downloaded and uncompressed image file"
