@@ -1,6 +1,6 @@
 ---
 - name: Check current LANG (avoid unnecessary config change)
-  set_fact:
+  ansible.builtin.set_fact:
     current_locale: "{{ ansible_facts.env.LANG }}"
 - name: Set language
   ansible.builtin.command:
