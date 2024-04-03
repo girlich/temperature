@@ -13,6 +13,7 @@ all:
 	@echo "dev         prepare a development environment of the server"
 	@echo "copy        copy stuff to the remote server to continue working from there"
 	@echo "local       configure the local server"
+	@echo "ssh         ssh to the just provisioned server"
 	@echo "update-git  get the most current version"
 	@echo "update-os   update the operating system and packages in it"
 
@@ -50,9 +51,20 @@ dev:
 local:
 	cd ansible ; ansible-playbook local.yml --extra-vars "@../../private.yml"
 
+# Get copnfiguration values out of the main configuration file.
+USER_NAME=$(shell yq -r .ansible_user < ../private.yml)
+HOST_NAME=$(shell yq -r .host_name < ../private.yml)
+SSH_KEY=ssh-keys/ssh_key_$(HOST_NAME)
+
+# Login from the PC to the Raspberry Pi using the generated SSH key
+ssh:
+	ssh -i $(SSH_KEY) $(USER_NAME)@$(HOST_NAME)
+
+# Update the git repo
 update-git:
 	git pull
 
+# Update the operating system
 update-os:
 	sudo apt update
 	sudo apt upgrade -y
