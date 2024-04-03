@@ -8,6 +8,7 @@
   ansible.builtin.command:
     cmd: "sfdisk -J {{ image_file }}"
   register: partitions
+  changed_when: false
 - name: Create the mount point
   ansible.builtin.file:
     state: directory

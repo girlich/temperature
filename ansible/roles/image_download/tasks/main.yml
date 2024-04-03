@@ -3,6 +3,7 @@
   ansible.builtin.command:
     cmd: "{{ rpi_imager }} --version"
   register: rpi_imager_version
+  changed_when: false
 - name: Extract repository URL
   ansible.builtin.set_fact:
     image_repository_url: "{{ rpi_imager_version.stderr | ansible.builtin.regex_search('https://.*json') }}"
