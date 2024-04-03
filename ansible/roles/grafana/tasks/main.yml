@@ -1,8 +1,10 @@
 ---
-- name: Add an Apt signing key, uses whichever key is at the URL
-  ansible.builtin.apt_key:
+- name: Add grafana apt repository key.
+  ansible.builtin.get_url:
     url: https://packages.grafana.com/gpg.key
-    state: present
+    dest: /etc/apt/trusted.gpg.d/grafana.asc
+    mode: '0644'
+    force: true
   become: true
 - name: Add specified repository into sources list
   ansible.builtin.apt_repository:
