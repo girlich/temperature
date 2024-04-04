@@ -11,10 +11,24 @@
     repo: deb https://packages.grafana.com/oss/deb stable main
     state: present
   become: true
+- name: Mask Grafana. It will not start after installation.
+  ansible.builtin.systemd_service:
+    name: grafana-server
+    masked: true
+  become: true
 - name: Install Grafana
   ansible.builtin.package:
     name:
       - grafana
+  become: true
+- name: Set the admin password
+  community.general.ini_file:
+    path: /etc/grafana/grafana.ini
+    section: security
+    option: admin_password
+    value: "{{ temp.grafana.admin.password }}"
+    mode: "0640"
+  notify: Restart Grafana
   become: true
 - name: Allow no password for viewers
   community.general.ini_file:
@@ -24,6 +38,12 @@
     value: "true"
     mode: "0640"
   notify: Restart Grafana
+  become: true
+- name: Unmask Grafana. It can now be started again.
+  ansible.builtin.systemd_service:
+    name: grafana-server
+    masked: false
+    enabled: true
   become: true
 - name: Create a dashboard directory
   ansible.builtin.file:
@@ -74,7 +94,3 @@
     state: started
     delay: 5
     timeout: 60
-- name: Setup Grafana admin user password
-  ansible.builtin.command:
-    cmd: "/usr/sbin/grafana-cli admin reset-admin-password {{ temp.grafana.admin.password }}"
-  become: true

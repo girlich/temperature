@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name:
       - gitk
+      - jq
       - spyder
       - vim
   become: true

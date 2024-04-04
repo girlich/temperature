@@ -9,9 +9,9 @@
   ansible.builtin.pause:
     prompt: "{{ result }}"
 - name: Write image to the sd card
-  ansible.builtin.command:
+  ansible.builtin.command: # noqa: no-changed-when
     cmd: "dd if={{ image_file }} of={{ sd_device }} bs=10M status=progress"
   become: true
 - name: Flush all buffers
-  ansible.builtin.command:
+  ansible.builtin.command: # noqa: no-changed-when
     cmd: "sync"
