@@ -13,7 +13,7 @@
     mode: '0644'
     force: true
   become: true
-- name: Add grafna apt repository into sources list.
+- name: Add grafana apt repository into sources list.
   ansible.builtin.apt_repository:
     repo: deb [signed-by=/etc/apt/trusted.gpg.d/grafana.asc] https://apt.grafana.com stable main
     state: present
