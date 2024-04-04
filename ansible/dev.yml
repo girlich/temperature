@@ -3,7 +3,6 @@
   hosts: temperature
   gather_facts: true
   roles:
-    - custom
     - devenv
     - venv
     - galaxy
