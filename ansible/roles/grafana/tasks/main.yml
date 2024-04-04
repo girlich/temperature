@@ -11,17 +11,20 @@
     repo: deb https://packages.grafana.com/oss/deb stable main
     state: present
   become: true
-- name: Mask Grafana. It will not start after installation.
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+- name: Mask an uninstalled Grafana. It will not start after installation.
   ansible.builtin.systemd_service:
     name: grafana-server
     masked: true
+  when: "'grafana' not in ansible_facts.packages"
   become: true
 - name: Install Grafana
   ansible.builtin.package:
     name:
       - grafana
   become: true
-- name: Set the admin password
+- name: Set the admin password once
   community.general.ini_file:
     path: /etc/grafana/grafana.ini
     section: security
@@ -81,16 +84,3 @@
     group: grafana
   notify: Restart Grafana
   become: true
-- name: Make sure grafana is running
-  ansible.builtin.systemd:
-    state: started
-    enabled: true
-    name: grafana-server
-  become: true
-- name: Wait for Grafana to be ready
-  ansible.builtin.wait_for:
-    host: "{{ grafana_host }}"
-    port: "{{ grafana_port }}"
-    state: started
-    delay: 5
-    timeout: 60
