@@ -36,6 +36,7 @@ It might be, that some dependencies for Ansible are still missing. You can insta
 ```
 $ make deps-ansible
 ```
+This is an extra target to allow you later to add more Ansible dependencies on the way without replacing the while virtual environment.
 ### Enter the virtual environment
 Now that the virtual environment is prepared, you can activate it.
 ```
