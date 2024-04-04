@@ -8,7 +8,14 @@
   when: current_locale != temp.lang
   changed_when: current_locale != temp.lang
   become: true
+- name: Check current keymap in Wayland
+  ansible.builtin.command:
+    cmd: "grep -q ^xkb_layout={{ temp.keyboard.layout }} /home/{{ ansible_user }}/.config/wayfire.ini"
+  changed_when: false
+  register: grep_result
 - name: Set keymap
   ansible.builtin.command:
     cmd: "/usr/bin/raspi-config nonint do_configure_keyboard {{ temp.keyboard.layout }}"
+  when: grep_result.rc != 0
+  changed_when: grep_result.rc != 0
   become: true

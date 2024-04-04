@@ -1,5 +1,5 @@
 ---
 - name: Reboot the server
-  ansible.builtin.command:
+  ansible.builtin.command: # noqa: no-changed-when
     cmd: reboot
   become: true
