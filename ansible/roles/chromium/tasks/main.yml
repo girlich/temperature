@@ -5,12 +5,13 @@
       - "{{ grafana_url }}/d/5gLDWaY7z/temperatur?orgId=1&refresh=1m"
       - "{{ prometheus_url }}/classic/graph?g0.range_input=1h&g0.expr=temperature&g0.tab=1"
       - "{{ sensor_url }}"
+      - "https://github.com/girlich/temperature"
 - name: Start Chromium in full screen upon (auto-) login
   community.general.ini_file:
     path: "/home/{{ ansible_user }}/.config/wayfire.ini"
     section: autostart
     option: "chromium"
-    value: "chromium-browser --start-maximized {{ urls | join(' ') }}"
+    value: "chromium-browser --start-maximized {{ urls | map('regex_replace','^(.*)$','\"\\1\"') | join(' ') }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
