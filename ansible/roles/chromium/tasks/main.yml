@@ -7,7 +7,7 @@
       - "{{ sensor_url }}"
       - "https://github.com/girlich/temperature"
 - name: Start Chromium in full screen upon (auto-) login
-  community.general.ini_file:
+  community.general.ini_file: # noqa jinja[spacing]
     path: "/home/{{ ansible_user }}/.config/wayfire.ini"
     section: autostart
     option: "chromium"
