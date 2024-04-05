@@ -97,3 +97,4 @@ $ make ssh
 $ cd temperature/git
 $ make update-os
 ```
+The whole process from cloning the repository until you can see the chrome browser on the graphical screen should take less than 40 minutes including all the downloading and handling of the µSD card.
