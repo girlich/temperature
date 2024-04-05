@@ -1,38 +1,41 @@
 ---
-- name: Install some packages needed for grafana.
+- name: Install some packages needed for grafana
   ansible.builtin.package:
     update_cache: true
     name:
+      - adduser
       - apt-transport-https
+      - libfontconfig1
+      - musl
       - software-properties-common
   become: true
-- name: Add grafana apt repository key.
+- name: Add grafana apt repository key
   ansible.builtin.get_url:
     url: https://apt.grafana.com/gpg.key
     dest: /etc/apt/trusted.gpg.d/grafana.asc
     mode: '0644'
     force: true
   become: true
-- name: Add grafana apt repository into sources list.
+- name: Add grafana apt repository into sources list
   ansible.builtin.apt_repository:
     repo: deb [signed-by=/etc/apt/trusted.gpg.d/grafana.asc] https://apt.grafana.com stable main
     state: present
   become: true
-- name: Gather the package facts.
+- name: Gather the package facts
   ansible.builtin.package_facts:
-- name: Mask an uninstalled Grafana. It will not start immediately after installation.
+- name: Mask an uninstalled Grafana, to not start it immediately
   ansible.builtin.systemd_service:
     name: grafana-server
     masked: true
   when: "'grafana' not in ansible_facts.packages"
   become: true
-- name: Install Grafana.
+- name: Install Grafana
   ansible.builtin.package:
     update_cache: true
     name:
       - grafana
   become: true
-- name: Set the admin password once.
+- name: Set the admin password once
   community.general.ini_file:
     path: /etc/grafana/grafana.ini
     section: security
@@ -41,7 +44,7 @@
     mode: "0640"
   notify: Restart Grafana
   become: true
-- name: Allow no password for viewers.
+- name: Allow no password for viewers
   community.general.ini_file:
     path: /etc/grafana/grafana.ini
     section: auth.anonymous
@@ -50,13 +53,13 @@
     mode: "0640"
   notify: Restart Grafana
   become: true
-- name: Unmask Grafana. It can now be started again.
+- name: Unmask Grafana to let it be started again
   ansible.builtin.systemd_service:
     name: grafana-server
     masked: false
     enabled: true
   become: true
-- name: Create a dashboard directory.
+- name: Create a dashboard directory
   ansible.builtin.file:
     path: /var/lib/grafana/dashboards
     state: directory
@@ -65,7 +68,7 @@
     group: grafana
   notify: Restart Grafana
   become: true
-- name: Put the dashboard in the just created directory.
+- name: Put the dashboard in the just created directory
   ansible.builtin.copy:
     src: Temperatur.json
     dest: /var/lib/grafana/dashboards/Temperature.json
@@ -74,7 +77,7 @@
     group: grafana
   notify: Restart Grafana
   become: true
-- name: Provision prometheus as data source.
+- name: Provision prometheus as data source
   ansible.builtin.template:
     src: prometheus.yaml.j2
     dest: /etc/grafana/provisioning/datasources/prometheus.yaml
@@ -83,7 +86,7 @@
     group: grafana
   notify: Restart Grafana
   become: true
-- name: Provision dashboards.
+- name: Provision dashboards
   ansible.builtin.template:
     src: dashboard.yaml.j2
     dest: /etc/grafana/provisioning/dashboards/default.yaml
