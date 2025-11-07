@@ -6,7 +6,7 @@
       - "{{ prometheus_url }}/classic/graph?g0.range_input=1h&g0.expr=temperature&g0.tab=1"
       - "{{ sensor_url }}"
       - "https://github.com/girlich/temperature"
-- name: Start Chromium in full screen upon (auto-) login
+- name: Start Chromium in full screen upon (auto-) login in wayfire
   community.general.ini_file: # noqa jinja[spacing]
     path: "/home/{{ ansible_user }}/.config/wayfire.ini"
     section: autostart
@@ -15,4 +15,17 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
+  notify: Restart Display Manager
+- name: Ensure Labwc config directory exists
+  file:
+    path: "/home/{{ ansible_user }}/.config/labwc"
+    state: directory
+    mode: "0755"
+- name: Start Chromium in full screen upon (auto-) login in labwc
+  ansible.builtin.template:
+    src: autostart.j2
+    dest: "/home/{{ ansible_user }}/.config/labwc/autostart"
+    mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   notify: Restart Display Manager

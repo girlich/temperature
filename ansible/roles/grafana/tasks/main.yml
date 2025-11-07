@@ -1,7 +1,6 @@
 ---
 - name: Install some packages needed for grafana
   ansible.builtin.package:
-    update_cache: true
     name:
       - adduser
       - apt-transport-https
