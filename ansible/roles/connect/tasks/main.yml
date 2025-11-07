@@ -1,0 +1,6 @@
+---
+- name: Install rpi-connect
+  ansible.builtin.package:
+    name:
+      - rpi-connect
+  become: true
