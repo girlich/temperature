@@ -4,3 +4,10 @@
     name:
       - rpi-connect
   become: true
+- name: Check if linger is enabled for {{ ansible_user }}
+  command: "loginctl show-user {{ ansible_user }} --property=Linger"
+  register: linger_status
+  changed_when: false
+- name: Enable linger for {{ ansible_user }}
+  command: "loginctl enable-linger {{ ansible_user }}"
+  when: "'Linger=yes' not in linger_status.stdout"
