@@ -69,7 +69,6 @@ def read_sensors(arguments):
             # print("error opening {}".format(p))
             pass
 
-
 class MyHandler(BaseHTTPRequestHandler):
     """
     This is the HTTP handler class needed to write a basic HTTP server.
