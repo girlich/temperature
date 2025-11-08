@@ -22,8 +22,6 @@ HEADER = """# HELP {0} The current temperature
 """
 
 data = [
-    {"labels": {"id": "28-3c01b5565288", "group": "1", "number": "1"},
-        "value": 21.0, "valid": False},
     {"labels": {"id": "28-3c01b55659a4", "group": "1", "number": "2"},
         "value": 22.0, "valid": False},
     {"labels": {"id": "28-3c01b5565e0e", "group": "1", "number": "3"},
@@ -47,6 +45,8 @@ data = [
     {"labels": {"id": "28-3c01b556e00b", "group": "2", "number": "6"},
         "value": 53.0, "valid": False},
     {"labels": {"id": "28-012044fe3f93", "group": "5", "number": "1"},
+        "value": 53.0, "valid": False},
+    {"labels": {"id": "28-3c01b556220a", "group": "1", "number": "1"},
         "value": 53.0, "valid": False},
 ]
 
@@ -127,7 +127,14 @@ def Scan(arguments):
     with open(filename) as file:
         lines = [line.rstrip() for line in file]
     for slave_id in lines:
-        print("{}".format(slave_id))
+        found = False
+        for d in data:
+            if d['labels']['id'] == slave_id:
+                print('id:{} g:{} n:{}'.format(slave_id, d['labels']['group'], d['labels']['number']))
+                found = True
+                break
+        if not found:
+            print("{} unknown".format(slave_id))
 
 def main():
     """The main function of the script."""
