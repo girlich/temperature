@@ -149,12 +149,24 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sensor"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 91
+              }
+            ]
           }
         ]
       },
       "gridPos": {
         "h": 14,
-        "w": 5,
+        "w": 12,
         "x": 0,
         "y": 1
       },
@@ -330,13 +342,25 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sensor"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
           }
         ]
       },
       "gridPos": {
         "h": 14,
-        "w": 5,
-        "x": 5,
+        "w": 12,
+        "x": 12,
         "y": 1
       },
       "id": 19,
@@ -838,5 +862,5 @@
   "timezone": "",
   "title": "Temperatur",
   "uid": "5gLDWaY7z",
-  "version": 1
+  "version": 2
 }
