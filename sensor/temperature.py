@@ -50,24 +50,26 @@ data = [
         "value": 53.0, "valid": False},
 ]
 
-def read_sensors(arguments):
+def read_sensor(arguments, devid):
     """
     Read the DS18B20 sensors defined in the array data.
     """
+    p = "{}/sys/bus/w1/devices/{}/w1_slave".format(
+        arguments.root, devid)
+    try:
+        with open(p, 'r') as file_descriptor:
+            for line in file_descriptor:
+                if " t=" in line:
+                    mo = re.match(r'.*=(\d+)$', line)
+                    return float(mo.group(1)) / 1000, True
+    except IOError:
+        # print("error opening {}".format(p))
+        return -1, False
+
+def read_sensors(arguments):
     for d in data:
         d['valid'] = False
-        p = "{}/sys/bus/w1/devices/{}/w1_slave".format(
-            arguments.root, d['labels']['id'])
-        try:
-            with open(p, 'r') as file_descriptor:
-                for line in file_descriptor:
-                    if " t=" in line:
-                        mo = re.match(r'.*=(\d+)$', line)
-                        d['value'] = float(mo.group(1)) / 1000
-                        d['valid'] = True
-        except IOError:
-            # print("error opening {}".format(p))
-            pass
+        d['value'], d['valid'] = read_sensor(arguments, d['labels']['id'])
 
 class MyHandler(BaseHTTPRequestHandler):
     """
@@ -130,11 +132,12 @@ def Scan(arguments):
         found = False
         for d in data:
             if d['labels']['id'] == slave_id:
-                print('id:{} g:{} n:{}'.format(slave_id, d['labels']['group'], d['labels']['number']))
+                value, valid = read_sensor(arguments, slave_id)
+                print('id:{} g:{} n:{} v:{}°C'.format(slave_id, d['labels']['group'], d['labels']['number'], value))
                 found = True
                 break
         if not found:
-            print("{} unknown".format(slave_id))
+            print("id:{} unknown".format(slave_id))
 
 def main():
     """The main function of the script."""
