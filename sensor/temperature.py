@@ -123,6 +123,12 @@ class HttpServer:
            arguments.root, arguments.port_number))
         server.serve_forever()
 
+def Scan(arguments):
+    filename = "{}/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves".format(arguments.root)
+    with open(filename) as file:
+        lines = [line.rstrip() for line in file]
+    for slave_id in lines:
+        print("{}".format(slave_id))
 
 def main():
     """The main function of the script."""
@@ -131,8 +137,13 @@ def main():
                         help="listen on given port", type=int)
     parser.add_argument("-r", "--root", dest="root", default="",
                         help="prefix sensor files with directory root", type=str)
+    parser.add_argument("-s", "--scan", dest="scan", default=False, action="store_true",
+                        help="scan current devices and exit")
     arguments = parser.parse_args()
-    HttpServer(arguments)
+    if arguments.scan:
+        Scan(arguments)
+    else:
+        HttpServer(arguments)
 
 
 if __name__ == "__main__":
