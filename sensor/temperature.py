@@ -133,11 +133,12 @@ def Scan(arguments):
         for d in data:
             if d['labels']['id'] == slave_id:
                 value, valid = read_sensor(arguments, slave_id)
-                print('id:{} g:{} n:{} v:{}°C'.format(slave_id, d['labels']['group'], d['labels']['number'], value))
+                print('id:{} g:{} n:{} t:{}°C'.format(slave_id, d['labels']['group'], d['labels']['number'], value))
                 found = True
                 break
         if not found:
-            print("id:{} unknown".format(slave_id))
+            value, valid = read_sensor(arguments, slave_id)
+            print("id:{} unknown t:{}°C".format(slave_id, value))
 
 def main():
     """The main function of the script."""
